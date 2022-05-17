@@ -56,6 +56,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.httpBasic().authenticationEntryPoint(restServicesEntryPoint());//kiểm tra thử đường dẫn có jwt kèm theo ko có báo ko có quyèn
         http.csrf().disable().authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/api/login").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/listNew").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/listNew/*").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/user").hasRole("USER")
                 .antMatchers(HttpMethod.GET, "/api/admin").hasRole("ADMIN")
                 .anyRequest().authenticated()
