@@ -29,7 +29,7 @@ public class HocSinh {
     private String hinhAnh;
     @OneToOne(cascade = CascadeType.ALL)
     private NguoiDung nguoiDung;
-    @ManyToOne
+    @ManyToOne(fetch=FetchType.EAGER)
     private Lop lop;
     @OneToMany(mappedBy = "hocSinh")
     @JsonIgnore

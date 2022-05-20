@@ -18,7 +18,7 @@ public class MonHoc {
     @ManyToOne
     private Thu thu;
     @ManyToOne
-    private Lop lop;
+    private Lop lopmh;
     @OneToMany(mappedBy = "monHoc")
     @JsonIgnore
     List<ChuongHoc> chuongHocs;

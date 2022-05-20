@@ -25,5 +25,5 @@ private String ten;
     @OneToOne(cascade = CascadeType.ALL)
     private NguoiDung nguoiDung;
     @OneToOne(cascade = CascadeType.ALL)
-    private Lop lop;
+    private Lop lopgv;
 }

@@ -1,16 +1,24 @@
 package com.example.websitemanageschooltinhdong.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Lop {
     @Id
     private int id;
     private String ten;
-    @OneToOne(mappedBy = "lop")
+    @OneToOne(mappedBy = "lopgv")
     @JsonIgnore
     private GiaoVien giaoVien;
     @OneToMany(mappedBy = "lop")
@@ -20,8 +28,7 @@ public class Lop {
     private Khoi khoi;
     @OneToOne(cascade = CascadeType.ALL)
     private ThoiKhoaBieu thoiKhoaBieu;
-
-    @OneToMany(mappedBy = "lop")
+    @OneToMany(mappedBy = "lopmh")
     @JsonIgnore
     List<MonHoc> monHocs;
 }
