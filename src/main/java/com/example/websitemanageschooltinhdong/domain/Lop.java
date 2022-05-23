@@ -26,9 +26,9 @@ public class Lop {
     List<HocSinh> hocSinhs;
     @ManyToOne
     private Khoi khoi;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "lop")
     private ThoiKhoaBieu thoiKhoaBieu;
-    @OneToMany(mappedBy = "lopmh")
-    @JsonIgnore
-    List<MonHoc> monHocs;
+//    @OneToMany(mappedBy = "lopmh")
+//    @JsonIgnore
+//    List<MonHoc> monHocs;
 }

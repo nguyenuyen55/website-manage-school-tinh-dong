@@ -1,23 +1,20 @@
 package com.example.websitemanageschooltinhdong.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import java.util.List;
 
 @Entity
+@Data
 public class ThoiKhoaBieu {
 @Id
     private int id;
-    @OneToOne(mappedBy = "thoiKhoaBieu")
-    @JsonIgnore
+    @OneToOne(cascade = CascadeType.ALL)
     private Lop lop;
     @OneToMany(mappedBy = "thoiKhoaBieu")
-    @JsonIgnore
-    List<Thu> thus;
+    List<ChiTietThoiKhoaBieu> chiTietThoiKhoaBieus;
 
 
 }

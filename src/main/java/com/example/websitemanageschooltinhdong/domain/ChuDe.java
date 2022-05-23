@@ -1,21 +1,22 @@
 package com.example.websitemanageschooltinhdong.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Data;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import java.util.List;
 
 @Entity
-public class Thu {
+@Data
+public class ChuDe {
     @Id
     private int id;
-    private String tenThu;
-    @OneToMany(mappedBy = "thu")
+    private String name;
+    @OneToMany(mappedBy = "chuDe")
     @JsonIgnore
-    List<MonHoc> monHocs;
-    @ManyToOne
-    private ThoiKhoaBieu thoiKhoaBieu;
+    List<CauHoi> cauHois;
+
 }

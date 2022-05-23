@@ -1,25 +1,32 @@
 package com.example.websitemanageschooltinhdong.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Data;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
+@Data
 public class MonHoc {
     @Id
     private String id;
     private String ten;
-    @OneToOne(cascade = CascadeType.ALL)
-    private Diem diem;
+//    @OneToOne(cascade = CascadeType.ALL)
+//    @JsonIgnore
+//    private Diem diem;
     @OneToMany(mappedBy = "monHoc")
-    @JsonIgnore
+        @JsonIgnore
     List<BaiGiang> baiGiangs;
-    @ManyToOne
-    private Thu thu;
-    @ManyToOne
-    private Lop lopmh;
+//    @ManyToOne
+//    @JsonIgnore
+//    @JsonBackReference
+//    private Lop lopmh;
     @OneToMany(mappedBy = "monHoc")
-    @JsonIgnore
+        @JsonBackReference
     List<ChuongHoc> chuongHocs;
+    @OneToMany(mappedBy = "monHoc")
+            @JsonIgnore
+    List<ChiTietThoiKhoaBieu> chiTietThoiKhoaBieu;
 }
