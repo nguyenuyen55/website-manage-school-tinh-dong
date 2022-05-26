@@ -5,9 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 @Entity
 @Getter
@@ -16,13 +14,18 @@ import javax.persistence.ManyToOne;
 @AllArgsConstructor
 public class BaiGiang {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     private String ten;
     private String mota;
     private String fileVideo;
     private String fileTaiLieu;
-    @ManyToOne
-    private MonHoc monHoc;
+//   @Lob
+//    private byte[] dataVideo;
+//    @Lob
+//    private byte[] datafile;
+//    @ManyToOne
+//    private MonHoc monHoc;
     @ManyToOne
     private ChuongHoc chuongHoc;
 

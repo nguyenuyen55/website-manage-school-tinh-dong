@@ -1,6 +1,7 @@
 package com.example.websitemanageschooltinhdong.service;
 
 import com.example.websitemanageschooltinhdong.domain.HocSinh;
+import com.example.websitemanageschooltinhdong.dto.request.HocSinhDTO;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,4 +12,11 @@ public interface HocSinhService {
     List<HocSinh> searchHocSinhByTenKhoiLop(String ten,int lop,int khoi);
     List<HocSinh> searchHocSinhAll();
 
+
+    //find all hocSinh
+    List<HocSinh> findAllIdLop(int id);
+    HocSinh create(HocSinhDTO hocSinhDTO);
+    HocSinh update(HocSinhDTO hocSinhDTO);
+
+    Boolean delete(String id);
 }

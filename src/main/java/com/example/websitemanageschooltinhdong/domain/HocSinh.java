@@ -1,10 +1,8 @@
 package com.example.websitemanageschooltinhdong.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.List;
@@ -14,6 +12,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class HocSinh {
     @Id
     private String id;
@@ -29,10 +28,13 @@ public class HocSinh {
     private String hinhAnh;
     @OneToOne(cascade = CascadeType.ALL)
     private NguoiDung nguoiDung;
+    @OneToOne(mappedBy = "hocSinh")
+    @JsonIgnore
+    private HocKiHocSinh hocKiHocSinh;
     @ManyToOne(fetch=FetchType.EAGER)
     private Lop lop;
-    @OneToMany(mappedBy = "hocSinh")
-    @JsonIgnore
-    List<Diem> diems;
+//    @OneToMany(mappedBy = "hocSinh")
+//    @JsonIgnore
+//    List<Diem> diems;
 
 }

@@ -26,5 +26,7 @@ List<HocSinh> findAll();
         "join khoi on lop.id= khoi.id \n" +
         "where hoc_sinh.ten like %:ten% and khoi.id= :idKhoi and lop.id= :idlop",nativeQuery = true)
  List<HocSinh> findAllByTenContainingAndLop_IdAndLop_Khoi_Id(@Param("ten")String ten, @Param("idlop")int idLop, @Param("idKhoi") int idKhoi);
+//get hs by id teacher
 
+    List<HocSinh>  findAllByLopId(int id);
 }

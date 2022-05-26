@@ -1,10 +1,7 @@
 package com.example.websitemanageschooltinhdong.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
@@ -14,8 +11,10 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Lop {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     private String ten;
     @OneToOne(mappedBy = "lopgv")
@@ -27,6 +26,7 @@ public class Lop {
     @ManyToOne
     private Khoi khoi;
     @OneToOne(mappedBy = "lop")
+    @JsonIgnore
     private ThoiKhoaBieu thoiKhoaBieu;
 //    @OneToMany(mappedBy = "lopmh")
 //    @JsonIgnore

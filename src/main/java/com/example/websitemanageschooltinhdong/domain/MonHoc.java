@@ -16,9 +16,9 @@ public class MonHoc {
 //    @OneToOne(cascade = CascadeType.ALL)
 //    @JsonIgnore
 //    private Diem diem;
-    @OneToMany(mappedBy = "monHoc")
-        @JsonIgnore
-    List<BaiGiang> baiGiangs;
+//    @OneToMany(mappedBy = "monHoc")
+//        @JsonIgnore
+//    List<BaiGiang> baiGiangs;
 //    @ManyToOne
 //    @JsonIgnore
 //    @JsonBackReference
@@ -29,4 +29,8 @@ public class MonHoc {
     @OneToMany(mappedBy = "monHoc")
             @JsonIgnore
     List<ChiTietThoiKhoaBieu> chiTietThoiKhoaBieu;
+    @OneToMany(mappedBy = "monHoc")
+    @JsonIgnore
+    List<DiemMonHoc> diemMonHocs;
+
 }

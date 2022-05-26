@@ -1,7 +1,7 @@
 package com.example.websitemanageschooltinhdong.controller;
 
 import com.example.websitemanageschooltinhdong.domain.ChiTietThoiKhoaBieu;
-import com.example.websitemanageschooltinhdong.repository.ChiTietBieuRespository;
+import com.example.websitemanageschooltinhdong.repository.ChiTibetBleuRepository;
 import com.example.websitemanageschooltinhdong.service.ChiTietBieuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,7 +17,7 @@ public class TimeTableController {
     ChiTietBieuService chiTietBieuService;
 
     @Autowired
-    ChiTietBieuRespository chiTietBieuRespository;
+    ChiTibetBleuRepository chiTietBieuRespository;
 
     @GetMapping("/tb")
     public ResponseEntity<List<ChiTietThoiKhoaBieu>> getTimeTables(@RequestParam("lop") int idLop){
