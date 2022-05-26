@@ -51,6 +51,15 @@ public class HocSinhServiceImpl implements HocSinhService {
     }
 
     @Override
+    public List<HocSinh> findALL() {
+        List<HocSinh> findAll = hocSinhRespository.findAll();
+        if(findAll.size()==0){
+           throw new RecordNotFoundException("Không tìm thấy sinh viên nào");
+        }
+        return findAll;
+    }
+
+    @Override
     public List<HocSinh> findAllIdLop(int id) {
         return hocSinhRespository.findAllByLopId(id);
     }
@@ -85,8 +94,8 @@ public class HocSinhServiceImpl implements HocSinhService {
         HocSinh hocsinhreal = hocSinhRespository.save(hocSinh);
         //set nguoi nguoi cũng nhu tao nguoi dùng tendn, mk ,quyen,
         NguoiDung nguoiDung = NguoiDung.builder()
-                .tenDangNhap("hs" + hocsinhreal.getId())
-                .matKhau(passwordEncoder.encode("12345"))
+                .tenDangNhap( hocsinhreal.getId())
+                .matKhau(passwordEncoder.encode("hs123"))
                 .quyen("ROLE_USER")
                 .build();
         hocsinhreal.setNguoiDung(nguoiDung);
@@ -134,6 +143,15 @@ public class HocSinhServiceImpl implements HocSinhService {
     }
 
     @Override
+    public HocSinh detailById(String id) {
+        Optional<HocSinh> hocSinh = hocSinhRespository.findById(id);
+        if(!hocSinh.isPresent()){
+            throw new RecordNotFoundException("Không tìm thấy học sinh này");
+        }
+        return hocSinh.get();
+    }
+
+    @Override
     public Boolean delete(String id) {
         //check id hoc sinh
         Optional<HocSinh> hocSinhCheck = hocSinhRespository.findById(id);
@@ -145,10 +163,11 @@ public class HocSinhServiceImpl implements HocSinhService {
 
         Optional<NguoiDung> nguoiDung = nguoiDungRepository.findById(hocSinhCheck.get().getNguoiDung().getId());
         if (nguoiDung.isPresent()) {
-            nguoiDungRepository.delete(nguoiDung.get());
+            hocSinhCheck.get().setNguoiDung(null);
+
         }
-        hocSinhCheck.get().setNguoiDung(null);
         hocSinhRespository.save(hocSinhCheck.get());
+        nguoiDungRepository.delete(nguoiDung.get());
         hocSinhRespository.deleteById(id);
         return true;
     }

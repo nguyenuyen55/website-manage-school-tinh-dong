@@ -57,6 +57,12 @@ public class HocSinhController {
         }
         return new ResponseEntity<>( hocSinhService.findAllIdLop(idLop),HttpStatus.OK);
     }
+//get list
+@GetMapping("/list")
+public ResponseEntity<List<HocSinh>> getList()
+{
+    return new ResponseEntity<>(hocSinhService.findALL(),HttpStatus.OK);
+}
 
     //create hoc sinh
     @PostMapping("/create")
@@ -74,6 +80,14 @@ public class HocSinhController {
 public ResponseEntity<Boolean> deleteStudent(@PathVariable("idNguoiDung") String id){
     return new ResponseEntity<>(hocSinhService.delete(id),HttpStatus.OK);
 }
+
+    //detail hoc sinh
+    @GetMapping("/detail/{id}")
+    public ResponseEntity<HocSinh> detail(@PathVariable("id") String id)
+    {
+        return new ResponseEntity<>(hocSinhService.detailById(id),HttpStatus.OK);
+    }
+
     @ExceptionHandler(RecordNotFoundException.class)
     public final ResponseEntity<Object> handleUserNotFoundException(RecordNotFoundException ex) {
         Map<String, String> details = new HashMap<>();

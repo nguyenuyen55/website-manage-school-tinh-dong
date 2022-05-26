@@ -25,6 +25,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     UserDetailsService userService;
     @Autowired
     JwtRequestFilter jwtRequestFilter;
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -40,6 +41,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
+
     @Bean
     public CustomAccessDeniedHandler customAccessDeniedHandler() {
         return new CustomAccessDeniedHandler();
@@ -57,6 +59,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable().authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/api/login").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/listNew").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/nguoiDung/*").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/student/search/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/student/list/*").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/teacher/search/**").permitAll()
@@ -73,7 +76,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/api/admin").hasRole("ADMIN")
                 .antMatchers(HttpMethod.POST, "/api/student/create").hasRole("ADMIN")
                 .antMatchers(HttpMethod.PUT, "/api/student/update").hasRole("ADMIN")
-                .antMatchers(HttpMethod.PUT, "/api/student/delete/*").hasRole("ADMIN")
+                .antMatchers(HttpMethod.DELETE, "/api/student/delete/*").hasRole("ADMIN")
+                .antMatchers(HttpMethod.GET, "/api/student/detail/*").hasRole("ADMIN")
+                .antMatchers(HttpMethod.GET, "/api/student/list").hasRole("ADMIN")
+                .antMatchers(HttpMethod.POST, "/api/teacher/create").hasRole("ADMIN")
+                .antMatchers(HttpMethod.PUT, "/api/teacher/update").hasRole("ADMIN")
+                .antMatchers(HttpMethod.DELETE, "/api/teacher/delete/*").hasRole("ADMIN")
+                .antMatchers(HttpMethod.GET, "/api/teacher/detail/*").hasRole("ADMIN")
                 .anyRequest().authenticated()
                 .and().logout().permitAll()
                 .and()
