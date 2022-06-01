@@ -9,7 +9,8 @@ import java.util.List;
 @Entity
 @Data
 public class ThoiKhoaBieu {
-@Id
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     @OneToOne(cascade = CascadeType.ALL)
     private Lop lop;

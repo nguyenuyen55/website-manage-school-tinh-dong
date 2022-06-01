@@ -1,6 +1,7 @@
 package com.example.websitemanageschooltinhdong.service;
 
 import com.example.websitemanageschooltinhdong.domain.ChiTietThoiKhoaBieu;
+import com.example.websitemanageschooltinhdong.dto.request.TimeTableDTO;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -9,5 +10,7 @@ import java.util.List;
 public interface ChiTietBieuService {
 
     List<ChiTietThoiKhoaBieu> findAllByIdLop(int idlop);
+    List<ChiTietThoiKhoaBieu> updateTimeTable(List<TimeTableDTO> chiTietThoiKhoaBieus);
+    List<ChiTietThoiKhoaBieu> createTimeTable(List<TimeTableDTO> chiTietThoiKhoaBieus,int idlop);
 
 }

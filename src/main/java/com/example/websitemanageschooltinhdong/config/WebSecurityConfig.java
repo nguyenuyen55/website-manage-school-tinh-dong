@@ -59,6 +59,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable().authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/api/login").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/listNew").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/monhoc/*").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/listNew/create").hasRole("ADMIN")
                 .antMatchers(HttpMethod.PUT, "/api/listNew/update").hasRole("ADMIN")
                 .antMatchers(HttpMethod.DELETE, "/api/listNew/delete/*").hasRole("ADMIN")
@@ -69,6 +70,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/api/listNew/*").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/timeTable/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/tb").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/tb/update").hasRole("ADMIN")
+                .antMatchers(HttpMethod.GET, "/api/tb/create/*").hasRole("ADMIN")
                 .antMatchers(HttpMethod.GET, "/api/baiGiang/*").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/baiGiang/create").permitAll()//role gv
                 .antMatchers(HttpMethod.PUT, "/api/baiGiang/update").hasRole("ADMIN")
