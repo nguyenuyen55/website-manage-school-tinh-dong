@@ -5,10 +5,7 @@ import com.example.websitemanageschooltinhdong.service.TinTucService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,4 +36,19 @@ public class TinTucController {
         return new ResponseEntity<>(tinTuc, HttpStatus.OK);
     }
 
+    //create
+    @PostMapping("/create")
+    public ResponseEntity<TinTuc> create(@RequestBody TinTuc tinTuc) {
+        return new ResponseEntity<>(tinTucService.create(tinTuc), HttpStatus.OK);
+    }
+    //update
+    @PutMapping("/update")
+    public ResponseEntity<TinTuc> update(@RequestBody TinTuc tinTuc) {
+        return new ResponseEntity<>(tinTucService.update(tinTuc), HttpStatus.OK);
+    }
+    //update
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Boolean> delete(@PathVariable("id") int id) {
+        return new ResponseEntity<>(tinTucService.delete(id), HttpStatus.OK);
+    }
 }

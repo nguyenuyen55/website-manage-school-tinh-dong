@@ -9,4 +9,7 @@ import java.util.List;
 public interface TinTucService {
     List<TinTuc> getAllTinTuc();
     TinTuc getTinTucById(int id);
+    TinTuc create (TinTuc tintuc);
+    TinTuc update (TinTuc tintuc);
+    Boolean delete (int  id);
 }
