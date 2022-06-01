@@ -38,6 +38,18 @@ public class BaiGiangController {
     public ResponseEntity<BaiGiang> create(@Valid @RequestBody BaiGiangDTO baiGiang){
         return new ResponseEntity<>(baiGiangService.createBaiGiang(baiGiang),HttpStatus.OK);
 }
+    //    update baiGiang
+    @PutMapping("/update")
+    public ResponseEntity<BaiGiang> update(@Valid @RequestBody BaiGiangDTO baiGiang){
+        return new ResponseEntity<>(baiGiangService.updateBaiGiang(baiGiang),HttpStatus.OK);
+    }
+
+//delete
+@DeleteMapping("/delete/{id}")
+public ResponseEntity<Boolean> deletebaigiang(@PathVariable("id") int id){
+    return new ResponseEntity<>(baiGiangService.deleteBaiGiang(id),HttpStatus.OK);
+}
+
     @ExceptionHandler(RecordNotFoundException.class)
     public final ResponseEntity<Object> handleUserNotFoundException(RecordNotFoundException ex) {
         Map<String, String> details = new HashMap<>();

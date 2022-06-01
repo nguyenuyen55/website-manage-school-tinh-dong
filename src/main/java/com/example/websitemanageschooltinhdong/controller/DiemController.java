@@ -37,11 +37,11 @@ public class DiemController {
 
     //cap nhat diem cho tung hoc sinh
 ///b1 get list học sinh boi id giao vien
+    //b2 update diem cho tung dua
+
     @PutMapping("hocSinh")
     public ResponseEntity<DiemMonHoc> updateDiemHocSinh(@RequestBody DiemHocSinhDTO diemHocSinhDTO) {
         return new ResponseEntity<>(diemService.updateDiemByHocSinh(diemHocSinhDTO), HttpStatus.OK);
     }
-
-    //b2 update diem cho tung dua
 
 }

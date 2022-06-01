@@ -17,6 +17,9 @@ public class Khoi {
     @OneToMany(mappedBy = "khoi")
     @JsonIgnore
     List<Lop> lops;
+    @OneToMany(mappedBy = "khoi")
+    @JsonIgnore
+    List<MonHoc> monHocs;
 
 
 }

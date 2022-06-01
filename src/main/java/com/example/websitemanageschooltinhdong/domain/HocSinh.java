@@ -30,6 +30,7 @@ public class HocSinh {
     private String tonGiao;
     private String sdtBoMe;
     private String hinhAnh;
+    private Boolean isActive;
     @OneToOne(cascade = CascadeType.ALL)
     private NguoiDung nguoiDung;
     @OneToOne(mappedBy = "hocSinh")

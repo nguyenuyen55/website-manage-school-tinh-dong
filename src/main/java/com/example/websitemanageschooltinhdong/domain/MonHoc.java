@@ -19,10 +19,10 @@ public class MonHoc {
 //    @OneToMany(mappedBy = "monHoc")
 //        @JsonIgnore
 //    List<BaiGiang> baiGiangs;
-//    @ManyToOne
-//    @JsonIgnore
-//    @JsonBackReference
-//    private Lop lopmh;
+    @ManyToOne
+    @JsonIgnore
+    @JsonBackReference
+    private Khoi khoi;
     @OneToMany(mappedBy = "monHoc")
         @JsonBackReference
     List<ChuongHoc> chuongHocs;

@@ -9,4 +9,6 @@ public interface BaiGiangService {
     //find by id
     BaiGiang findById(int id);
     BaiGiang createBaiGiang(BaiGiangDTO baiGiangDTO);
+    BaiGiang updateBaiGiang(BaiGiangDTO baiGiangDTO);
+    Boolean deleteBaiGiang(int id);
 }

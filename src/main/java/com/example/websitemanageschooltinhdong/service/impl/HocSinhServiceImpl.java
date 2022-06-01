@@ -67,10 +67,10 @@ public class HocSinhServiceImpl implements HocSinhService {
     @Override
     public HocSinh create(HocSinhDTO hocSinhDTO) {
 //check id hoc sinh
-        Optional<HocSinh> hocSinhCheck = hocSinhRespository.findById(hocSinhDTO.getId());
-        if (hocSinhCheck.isPresent()) {
-            throw new RecordNotFoundException("Học sinh này đã tồn tại");
-        }
+//        Optional<HocSinh> hocSinhCheck = hocSinhRespository.findById(hocSinhDTO.getId());
+//        if (hocSinhCheck.isPresent()) {
+//            throw new RecordNotFoundException("Học sinh này đã tồn tại");
+//        }
         //set lop
         Optional<Lop> lop = lopRepository.findById(hocSinhDTO.getIdLop());
         if (!lop.isPresent()) {
@@ -78,7 +78,6 @@ public class HocSinhServiceImpl implements HocSinhService {
         }
 //set hoc sinh
         HocSinh hocSinh = HocSinh.builder()
-                .id(hocSinhDTO.getId())
                 .ten(hocSinhDTO.getTen())
                 .diaChi(hocSinhDTO.getDiaChi())
                 .gioiTinh(hocSinhDTO.getGioiTinh())
@@ -100,8 +99,6 @@ public class HocSinhServiceImpl implements HocSinhService {
                 .build();
         hocsinhreal.setNguoiDung(nguoiDung);
         return hocSinhRespository.save(hocsinhreal);
-
-
     }
 
     @Override

@@ -31,4 +31,6 @@ public class Lop {
 //    @OneToMany(mappedBy = "lopmh")
 //    @JsonIgnore
 //    List<MonHoc> monHocs;
+@ManyToOne
+private NamHoc namHoc;
 }
