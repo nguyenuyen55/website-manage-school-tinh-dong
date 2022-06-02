@@ -2,6 +2,8 @@ package com.example.websitemanageschooltinhdong.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -38,6 +40,12 @@ public class HocSinh {
     private HocKiHocSinh hocKiHocSinh;
     @ManyToOne(fetch=FetchType.EAGER)
     private Lop lop;
+//    @ManyToMany(fetch = FetchType.EAGER)
+//    @Fetch(FetchMode.SUBSELECT)
+//    @JoinTable(name = "movie_producer",
+//            joinColumns = @JoinColumn(name = "movie_id"),
+//            inverseJoinColumns = @JoinColumn(name = "producer_id"))
+//    private List<Producer> producerList;
 //    @OneToMany(mappedBy = "hocSinh")
 //    @JsonIgnore
 //    List<Diem> diems;

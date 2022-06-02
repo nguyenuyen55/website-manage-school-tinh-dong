@@ -1,6 +1,7 @@
 package com.example.websitemanageschooltinhdong.controller;
 
 import com.example.websitemanageschooltinhdong.domain.CauHoi;
+import com.example.websitemanageschooltinhdong.dto.request.CauHoiDTO;
 import com.example.websitemanageschooltinhdong.service.CauHoiService;
 import org.hibernate.loader.custom.Return;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,7 @@ public class QuestionController {
 @Autowired
     CauHoiService cauHoiService;
     @PostMapping("create")
-    public ResponseEntity<CauHoi> createCauHoi(@RequestBody CauHoi cauHoi){
+    public ResponseEntity<CauHoi> createCauHoi(@RequestBody CauHoiDTO cauHoi){
         return new ResponseEntity<>(cauHoiService.createCauHoi(cauHoi), HttpStatus.OK);
     }
 }
