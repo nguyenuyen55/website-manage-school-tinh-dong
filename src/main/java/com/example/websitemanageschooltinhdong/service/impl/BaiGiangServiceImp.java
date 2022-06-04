@@ -10,6 +10,7 @@ import com.example.websitemanageschooltinhdong.service.BaiGiangService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -72,6 +73,11 @@ public class BaiGiangServiceImp implements BaiGiangService {
         }
         baiGiangResposity.delete(baiGiangReal);
         return true ;
+    }
+
+    @Override
+    public List<BaiGiang> getall() {
+        return baiGiangResposity.findAll();
     }
 
 }

@@ -1,6 +1,7 @@
 package com.example.websitemanageschooltinhdong.controller;
 
 import com.example.websitemanageschooltinhdong.domain.BaiGiang;
+import com.example.websitemanageschooltinhdong.domain.TinTuc;
 import com.example.websitemanageschooltinhdong.dto.request.BaiGiangDTO;
 import com.example.websitemanageschooltinhdong.exception.ErrorResponse;
 import com.example.websitemanageschooltinhdong.exception.RecordNotFoundException;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -25,6 +27,15 @@ public class BaiGiangController {
 * */
     @Autowired
     BaiGiangService baiGiangService;
+
+    @GetMapping("")
+    public ResponseEntity<List<BaiGiang>> getALlBaiGiang() {
+        List<BaiGiang> baiGiangs = baiGiangService.getall();
+        if (baiGiangs.size() == 0) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(baiGiangs, HttpStatus.OK);
+    }
     @GetMapping("{id}")
     public ResponseEntity<BaiGiang> getBaiGiang(@PathVariable("id") int id){
         if(baiGiangService.findById(id)==null){
