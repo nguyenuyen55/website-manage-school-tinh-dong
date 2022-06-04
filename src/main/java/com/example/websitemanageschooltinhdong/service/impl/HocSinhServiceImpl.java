@@ -1,10 +1,12 @@
 package com.example.websitemanageschooltinhdong.service.impl;
 
 import com.example.websitemanageschooltinhdong.domain.HocSinh;
+import com.example.websitemanageschooltinhdong.domain.HocSinhLop;
 import com.example.websitemanageschooltinhdong.domain.Lop;
 import com.example.websitemanageschooltinhdong.domain.NguoiDung;
 import com.example.websitemanageschooltinhdong.dto.request.HocSinhDTO;
 import com.example.websitemanageschooltinhdong.exception.RecordNotFoundException;
+import com.example.websitemanageschooltinhdong.repository.HocSinhLopRepository;
 import com.example.websitemanageschooltinhdong.repository.HocSinhRespository;
 import com.example.websitemanageschooltinhdong.repository.LopRepository;
 import com.example.websitemanageschooltinhdong.repository.NguoiDungRepository;
@@ -22,6 +24,8 @@ public class HocSinhServiceImpl implements HocSinhService {
     HocSinhRespository hocSinhRespository;
     @Autowired
     NguoiDungRepository nguoiDungRepository;
+    @Autowired
+    HocSinhLopRepository hocSinhLopRepository;
     @Autowired
     LopRepository lopRepository;
     private final PasswordEncoder passwordEncoder;
@@ -61,21 +65,21 @@ public class HocSinhServiceImpl implements HocSinhService {
 
     @Override
     public List<HocSinh> findAllIdLop(int id) {
-        return hocSinhRespository.findAllByLopId(id);
+
+//        return hocSinhRespository.findAllByLopId(id);
+        return hocSinhRespository.findAllByHocSinhLops(id);
     }
 
     @Override
     public HocSinh create(HocSinhDTO hocSinhDTO) {
-//check id hoc sinh
-//        Optional<HocSinh> hocSinhCheck = hocSinhRespository.findById(hocSinhDTO.getId());
-//        if (hocSinhCheck.isPresent()) {
-//            throw new RecordNotFoundException("Học sinh này đã tồn tại");
-//        }
-        //set lop
+
+
+
         Optional<Lop> lop = lopRepository.findById(hocSinhDTO.getIdLop());
         if (!lop.isPresent()) {
             throw new RecordNotFoundException("NOt found lớp");
         }
+
 //set hoc sinh
         HocSinh hocSinh = HocSinh.builder()
                 .ten(hocSinhDTO.getTen())
@@ -88,9 +92,10 @@ public class HocSinhServiceImpl implements HocSinhService {
                 .tonGiao(hocSinhDTO.getTonGiao())
                 .sdtBoMe(hocSinhDTO.getSdtBoMe())
                 .hinhAnh(hocSinhDTO.getHinhAnh())
-                .lop(lop.get())
                 .build();
+
         HocSinh hocsinhreal = hocSinhRespository.save(hocSinh);
+
         //set nguoi nguoi cũng nhu tao nguoi dùng tendn, mk ,quyen,
         NguoiDung nguoiDung = NguoiDung.builder()
                 .tenDangNhap( hocsinhreal.getId())
@@ -98,7 +103,25 @@ public class HocSinhServiceImpl implements HocSinhService {
                 .quyen("ROLE_USER")
                 .build();
         hocsinhreal.setNguoiDung(nguoiDung);
-        return hocSinhRespository.save(hocsinhreal);
+        //save một đối tượng chứa id lop và id hoc sinh
+//        List<HocSinhLop> lophss = hocSinhLopRepository.findAllByLop_Id(lop.get().getId());
+//
+//        if (lophss.size() != 0) {
+//            for (HocSinhLop hocSinhLop : lophss) {
+//                hocSinhLop.setActive(false);
+//                hocSinhLopRepository.save(hocSinhLop);
+//            }
+//        }
+
+//        tạo mới một đối tượng giáo viên lóp mới
+
+
+        HocSinhLop hocSinhLop = new HocSinhLop();
+        hocSinhLop.setHocSinh(hocSinhRespository.save(hocsinhreal));
+        hocSinhLop.setLop(lop.get());
+        hocSinhLop.setActive(true);
+        hocSinhLopRepository.save(hocSinhLop);
+        return hocSinhRespository.save(hocsinhreal) ;
     }
 
     @Override
@@ -109,10 +132,10 @@ public class HocSinhServiceImpl implements HocSinhService {
             throw new RecordNotFoundException("không tìm thấy học sinh này");
         }
         //set lop
-        Optional<Lop> lop = lopRepository.findById(hocSinhDTO.getIdLop());
-        if (!lop.isPresent()) {
-            throw new RecordNotFoundException("Not found lớp");
-        }
+//        Optional<Lop> lop = lopRepository.findById(hocSinhDTO.getIdLop());
+//        if (!lop.isPresent()) {
+//            throw new RecordNotFoundException("Not found lớp");
+//        }
 
         Optional<NguoiDung> nguoiDung = nguoiDungRepository.findById(hocSinhDTO.getIdDung());
         if (!nguoiDung.isPresent()) {
@@ -132,7 +155,6 @@ public class HocSinhServiceImpl implements HocSinhService {
                 .tonGiao(hocSinhDTO.getTonGiao())
                 .sdtBoMe(hocSinhDTO.getSdtBoMe())
                 .hinhAnh(hocSinhDTO.getHinhAnh())
-                .lop(lop.get())
                 .nguoiDung(nguoiDung.get())
                 .build();
 
@@ -155,13 +177,18 @@ public class HocSinhServiceImpl implements HocSinhService {
         if (!hocSinhCheck.isPresent()) {
             throw new RecordNotFoundException("không tìm thấy học sinh này");
         }
-        hocSinhCheck.get().setLop(null);
+
 
 
         Optional<NguoiDung> nguoiDung = nguoiDungRepository.findById(hocSinhCheck.get().getNguoiDung().getId());
         if (nguoiDung.isPresent()) {
             hocSinhCheck.get().setNguoiDung(null);
 
+        }
+        List<HocSinhLop> hocSinhLops = hocSinhLopRepository.findAllByHocSinh_Id(id);
+
+        for (HocSinhLop hocSinhLop :hocSinhLops){
+            hocSinhLopRepository.delete(hocSinhLop);
         }
         hocSinhRespository.save(hocSinhCheck.get());
         nguoiDungRepository.delete(nguoiDung.get());

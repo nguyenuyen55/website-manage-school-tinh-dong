@@ -1,10 +1,12 @@
 package com.example.websitemanageschooltinhdong.controller;
 
 import com.example.websitemanageschooltinhdong.domain.GiaoVien;
+import com.example.websitemanageschooltinhdong.domain.GiaoVienLop;
 import com.example.websitemanageschooltinhdong.domain.HocSinh;
 import com.example.websitemanageschooltinhdong.dto.request.HocSinhDTO;
 import com.example.websitemanageschooltinhdong.exception.ErrorResponse;
 import com.example.websitemanageschooltinhdong.exception.RecordNotFoundException;
+import com.example.websitemanageschooltinhdong.repository.GiaoVienLopRepository;
 import com.example.websitemanageschooltinhdong.repository.GiaoVienRepository;
 import com.example.websitemanageschooltinhdong.service.HocSinhService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,8 @@ import java.util.*;
 public class HocSinhController {
     @Autowired
     HocSinhService hocSinhService;
+    @Autowired
+    GiaoVienLopRepository giaoVienLopRepository;
     @Autowired
     GiaoVienRepository giaoVienRepository;
     @GetMapping("/search")
@@ -51,9 +55,15 @@ public class HocSinhController {
     @GetMapping("/list/{idTeacher}")
     public ResponseEntity<List<HocSinh>> getListHocSinhByIdTeacher(@PathVariable("idTeacher") String idTeacher){
        int idLop = 0;
+
+
+
         Optional<GiaoVien>  giaoVien = giaoVienRepository.findById(idTeacher);
         if(giaoVien.isPresent()){
-            idLop=giaoVien.get().getLopgv().getId();
+            GiaoVienLop giaoVienLop = giaoVienLopRepository.findByGiaoVien_IdAndActiveTrue(giaoVien.get().getId());
+            idLop=giaoVienLop.getLop().getId();
+        }else {
+            throw new RecordNotFoundException("Không tìm thấy giáo viên này");
         }
         return new ResponseEntity<>( hocSinhService.findAllIdLop(idLop),HttpStatus.OK);
     }

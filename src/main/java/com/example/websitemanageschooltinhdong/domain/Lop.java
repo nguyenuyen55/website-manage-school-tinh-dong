@@ -17,12 +17,12 @@ public class Lop {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     private String ten;
-    @OneToOne(mappedBy = "lopgv")
-    @JsonIgnore
-    private GiaoVien giaoVien;
-    @OneToMany(mappedBy = "lop")
-    @JsonIgnore
-    List<HocSinh> hocSinhs;
+//    @OneToOne(mappedBy = "lopgv")
+//    @JsonIgnore
+//    private GiaoVien giaoVien;
+//    @OneToMany(mappedBy = "lop")
+//    @JsonIgnore
+//    List<HocSinh> hocSinhs;
     @ManyToOne
     private Khoi khoi;
     @OneToOne(mappedBy = "lop")
@@ -33,4 +33,6 @@ public class Lop {
 //    List<MonHoc> monHocs;
 @ManyToOne
 private NamHoc namHoc;
+    @OneToMany(mappedBy = "lop")
+    List<HocSinhLop> hocSinhLops;
 }

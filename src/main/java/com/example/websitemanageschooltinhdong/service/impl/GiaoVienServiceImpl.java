@@ -17,6 +17,8 @@ public class GiaoVienServiceImpl implements GiaoVienService {
     @Autowired
     GiaoVienRepository giaoVienRepository;
     @Autowired
+    GiaoVienLopRepository giaoVienLopRepository;
+    @Autowired
     LopRepository lopRepository;
     @Autowired
     BangCapRepository bangCapRepository;
@@ -50,12 +52,12 @@ public class GiaoVienServiceImpl implements GiaoVienService {
     @Override
     public GiaoVien create(GiaoVienDTO giaoVienDTO) {
         // lop , set phong ban, bang , create nguoidung
-
-        //set lop
-        Optional<Lop> lop = lopRepository.findById(giaoVienDTO.getIdLop());
-        if (!lop.isPresent()) {
-            throw new RecordNotFoundException("không tìm thấy lớp");
-        }
+//
+//        //set lop
+//        Optional<Lop> lop = lopRepository.findById(giaoVienDTO.getIdLop());
+//        if (!lop.isPresent()) {
+//            throw new RecordNotFoundException("không tìm thấy lớp");
+//        }
 
 //bang cap
         Optional<BangCap> bangCap = bangCapRepository.findById(giaoVienDTO.getIdBangCap());
@@ -75,7 +77,6 @@ public class GiaoVienServiceImpl implements GiaoVienService {
                 .email(giaoVienDTO.getEmail())
                 .gioiTinh(giaoVienDTO.getGioiTinh())
                 .hinhAnh(giaoVienDTO.getHinhAnh())
-                .lopgv(lop.get())
                 .ngaySinh(giaoVienDTO.getNgaySinh())
                 .phongBan(phongBan.get())
                 .ten(giaoVienDTO.getTen())
@@ -102,12 +103,12 @@ public class GiaoVienServiceImpl implements GiaoVienService {
             throw new RecordNotFoundException("giáo viên này không tồn tại");
         }
 
-
-        //set lop
-        Optional<Lop> lop = lopRepository.findById(giaoVienDTO.getIdLop());
-        if (!lop.isPresent()) {
-            throw new RecordNotFoundException("không tìm thấy lớp");
-        }
+//
+//        //set lop
+//        Optional<Lop> lop = lopRepository.findById(giaoVienDTO.getIdLop());
+//        if (!lop.isPresent()) {
+//            throw new RecordNotFoundException("không tìm thấy lớp");
+//        }
 
 //bang cap
         Optional<BangCap> bangCap = bangCapRepository.findById(giaoVienDTO.getIdBangCap());
@@ -120,17 +121,17 @@ public class GiaoVienServiceImpl implements GiaoVienService {
             throw new RecordNotFoundException("không tìm thấy phòng ban");
         }
         //nguoi dung
-        Optional<NguoiDung> nguoiDung = nguoiDungRepository.findById(giaoVienDTO.getIdBan());
-        if (!phongBan.isPresent()) {
-            throw new RecordNotFoundException("không tìm thấy phòng ban");
+        Optional<NguoiDung> nguoiDung = nguoiDungRepository.findById(giaoVienDTO.getIdnguoiDung());
+        if (!nguoiDung.isPresent()) {
+            throw new RecordNotFoundException("không tìm thấyngười dùng này");
         }
         GiaoVien giaoVien = GiaoVien.builder()
+                .id(giaoVienDTO.getId())
                 .bangCap(bangCap.get())
                 .diaChi(giaoVienDTO.getDiaChi())
                 .email(giaoVienDTO.getEmail())
                 .gioiTinh(giaoVienDTO.getGioiTinh())
                 .hinhAnh(giaoVienDTO.getHinhAnh())
-                .lopgv(lop.get())
                 .ngaySinh(giaoVienDTO.getNgaySinh())
                 .phongBan(phongBan.get())
                 .ten(giaoVienDTO.getTen())
@@ -138,7 +139,7 @@ public class GiaoVienServiceImpl implements GiaoVienService {
                 .tenDaiHoc(giaoVienDTO.getTenDaiHoc())
                 .nguoiDung(nguoiDung.get())
                 .build();
-
+        giaoVien.setId(giaoVienDTO.getId());
 
         return giaoVienRepository.save(giaoVien);
     }
@@ -150,15 +151,19 @@ public class GiaoVienServiceImpl implements GiaoVienService {
         if (!giaoVienOptional.isPresent()) {
             throw new RecordNotFoundException("giáo viên này không tồn tại");
         }
-         giaoVienOptional.get().setBangCap(null);
-         giaoVienOptional.get().setLopgv(null);
-         giaoVienOptional.get().setPhongBan(null);
+        giaoVienOptional.get().setBangCap(null);
+        giaoVienOptional.get().setPhongBan(null);
 
         Optional<NguoiDung> nguoiDung = nguoiDungRepository.findById(giaoVienOptional.get().getNguoiDung().getId());
         if (!nguoiDung.isPresent()) {
             throw new RecordNotFoundException("không tìm thấy người dùng của gv");
-        }else {
+        } else {
             giaoVienOptional.get().setNguoiDung(null);
+        }
+        List<GiaoVienLop> giaoVienLops = giaoVienLopRepository.findAllByGiaoVien_Id(id);
+
+        for (GiaoVienLop hocSinhLop : giaoVienLops) {
+            giaoVienLopRepository.delete(hocSinhLop);
         }
         giaoVienRepository.save(giaoVienOptional.get());
         nguoiDungRepository.delete(nguoiDung.get());
@@ -169,9 +174,9 @@ public class GiaoVienServiceImpl implements GiaoVienService {
     @Override
     public GiaoVien detail(String id) {
         Optional<GiaoVien> giaoVien = giaoVienRepository.findById(id);
-        if(!giaoVien.isPresent()){
+        if (!giaoVien.isPresent()) {
             throw new RecordNotFoundException("không tìm thấy gv");
         }
-        return giaoVien.get() ;
+        return giaoVien.get();
     }
 }

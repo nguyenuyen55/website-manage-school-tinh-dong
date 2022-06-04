@@ -37,6 +37,6 @@ public class GiaoVien {
     @OneToOne(cascade = CascadeType.ALL)
     @JsonIgnore
     private NguoiDung nguoiDung;
-    @OneToOne(cascade = CascadeType.ALL)
-    private Lop lopgv;
+//    @OneToOne(cascade = CascadeType.ALL)
+//    private Lop lopgv;
 }

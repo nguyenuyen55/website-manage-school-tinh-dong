@@ -1,6 +1,7 @@
 package com.example.websitemanageschooltinhdong.controller;
 
 import com.example.websitemanageschooltinhdong.domain.TinTuc;
+import com.example.websitemanageschooltinhdong.dto.request.TinTucDTO;
 import com.example.websitemanageschooltinhdong.service.TinTucService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -38,8 +39,8 @@ public class TinTucController {
 
     //create
     @PostMapping("/create")
-    public ResponseEntity<TinTuc> create(@RequestBody TinTuc tinTuc) {
-        return new ResponseEntity<>(tinTucService.create(tinTuc), HttpStatus.OK);
+    public ResponseEntity<TinTuc> create(@RequestBody TinTucDTO tinTucDTO) {
+        return new ResponseEntity<>(tinTucService.create(tinTucDTO), HttpStatus.OK);
     }
     //update
     @PutMapping("/update")

@@ -23,5 +23,5 @@ public interface GiaoVienRepository extends JpaRepository<GiaoVien,String> {
             "where phong_ban.id= :idBan",nativeQuery = true)
     List<GiaoVien> findAllByPhongBan_Id(@Param("idBan") String idban);
 
-    GiaoVien findByLopgvId(int id);
+//    GiaoVien findByLopgvId(int id);
 }

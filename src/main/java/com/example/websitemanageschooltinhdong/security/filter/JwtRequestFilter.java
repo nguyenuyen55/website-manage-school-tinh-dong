@@ -29,29 +29,39 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        try {
-            //Lấy jwt từ request
+// Access to XMLHttpRequest has been blocked by CORS policy
+        // Error lock URL back-end --> font-end
+        // Link: https://stackoverflow.com/questions/53258297/access-to-xmlhttprequest-has-been-blocked-by-cors-policy
+        // add link: https://howtodoinjava.com/java/servlets/java-cors-filter-example/
+
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        response.setHeader("Access-Control-Allow-Credentials", "true");
+        response.setHeader("Access-Control-Allow-Methods", "GET, POST, PATCH, PUT, DELETE, OPTIONS, HEAD");
+        response.setHeader("Access-Control-Allow-Headers",
+                "Origin, Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers, Authorization, No-Auth");
+
+
+        //Lấy jwt từ request
+        // For HTTP OPTIONS verb/method reply with ACCEPTED status code -- per CORS handshake
+        if (request.getMethod().equals("OPTIONS")) {
+            response.setStatus(HttpServletResponse.SC_ACCEPTED);
+        } else {
             String jwt = getJWTFromRequest(request);
-            if(StringUtils.hasText(jwt)&& jwtTokenProvider.validateToken(jwt)){
+            if (StringUtils.hasText(jwt) && jwtTokenProvider.validateToken(jwt)) {
                 String username = jwtTokenProvider.getUsernameFromJWT(jwt);
-
                 UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-                if(userDetails!=null){
+                if (userDetails != null) {
                     UsernamePasswordAuthenticationToken authenticationToken
-                            = new UsernamePasswordAuthenticationToken(userDetails,null,userDetails.getAuthorities());
+                            = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                     authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-
                     SecurityContextHolder.getContext().setAuthentication(authenticationToken);
                 }
+
             }
-        } catch (JwtException ex) {
-            logger.debug("jwt invaid or expired  ");
+            filterChain.doFilter(request, response);
         }
-        catch (Exception ex) {
-           logger.debug("failed on set user authentication");
-        }
-        filterChain.doFilter(request,response);
     }
+
 
     private String getJWTFromRequest(HttpServletRequest request) {
         String bearerToken = request.getHeader("Authorization");

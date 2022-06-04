@@ -1,32 +1,46 @@
 package com.example.websitemanageschooltinhdong.repository;
 
 import com.example.websitemanageschooltinhdong.domain.HocSinh;
+import com.example.websitemanageschooltinhdong.dto.response.HocSinhReponse;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-public interface HocSinhRespository extends JpaRepository<HocSinh,String> {
-List<HocSinh> findAll();
+public interface HocSinhRespository extends JpaRepository<HocSinh, String> {
+    List<HocSinh> findAll();
     //theo ten
 
-    @Query(value = "SELECT * FROM hoc_sinh where hoc_sinh.ten like %:ten%",nativeQuery = true)
+    @Query(value = "SELECT * FROM hoc_sinh where hoc_sinh.ten like %:ten%", nativeQuery = true)
     List<HocSinh> findAllByTenContaining(@Param("ten") String ten);
-//    //theo tên và theo khối
-    @Query(value = "SELECT hoc_sinh.* FROM hoc_sinh\n" +
-            "join lop on lop.id= hoc_sinh.lop_id\n" +
-            "join khoi on lop.id= khoi.id \n" +
-            "where hoc_sinh.ten like %:ten% and khoi.id= :idKhoi ",nativeQuery = true)
-    List<HocSinh>  findAllByTenContainingAndLop_Khoi_Id(@Param("ten") String ten, @Param("idKhoi")int idKhoi);
 
-//    //ket hop cả ba
-@Query(value = "SELECT hoc_sinh.* FROM hoc_sinh\n" +
-        "join lop on lop.id= hoc_sinh.lop_id\n" +
-        "join khoi on lop.id= khoi.id \n" +
-        "where hoc_sinh.ten like %:ten% and khoi.id= :idKhoi and lop.id= :idlop",nativeQuery = true)
- List<HocSinh> findAllByTenContainingAndLop_IdAndLop_Khoi_Id(@Param("ten")String ten, @Param("idlop")int idLop, @Param("idKhoi") int idKhoi);
+
+    @Query(value = "SELECT hs.* FROM hoc_sinh hs\n" +
+            "join hoc_sinh_lop hsl on hs.id = hsl.hoc_sinh_id\n" +
+            "join lop on lop.id = hsl.lopid\n" +
+            "where lop.khoi_id= :idKhoi and hs.ten like %:ten% ", nativeQuery = true)
+    List<HocSinh> findAllByTenContainingAndLop_Khoi_Id(@Param("ten") String ten, @Param
+            ("idKhoi") int idKhoi);
+
+    //    //ket hop cả ba
+    @Query(value = "SELECT hs.* FROM hoc_sinh hs\n" +
+            "join hoc_sinh_lop hsl on hs.id = hsl.hoc_sinh_id\n" +
+            "join lop on lop.id = hsl.lopid\n" +
+            "where lop.khoi_id= :idKhoi and hs.ten like %:ten% and hsl.lopid= :idlop", nativeQuery = true)
+    List<HocSinh> findAllByTenContainingAndLop_IdAndLop_Khoi_Id(@Param("ten") String ten, @Param("idlop") int idLop, @Param("idKhoi") int idKhoi);
 //get hs by id teacher
 
-    List<HocSinh>  findAllByLopId(int id);
+    @Query(value = "SELECT hs.* FROM hoc_sinh hs\n" +
+            "join hoc_sinh_lop hsl on hs.id = hsl.hoc_sinh_id\n" +
+            "where hsl.lopid= :id", nativeQuery = true)
+    List<HocSinh> findAllByHocSinhLops(@Param("id") int id);
+    @Query(value = "SELECT hs.* FROM hoc_sinh hs\n" +
+            "join hoc_sinh_lop hsl on hs.id = hsl.hoc_sinh_id\n" +
+            "where hsl.lopid= :id", nativeQuery = true)
+    List<HocSinh> findAllByLop_id(@Param("id") int id);
+    @Query(value = "SELECT new com.example.websitemanageschooltinhdong.dto.response.HocSinhReponse(h.hocSinh.id)" +
+            "from HocSinhLop h where h.lop.id = :id")
+    List<HocSinhReponse> findByLop_idTest(@Param("id") int id);
+
 }

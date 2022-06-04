@@ -5,13 +5,17 @@ import com.example.websitemanageschooltinhdong.dto.request.GiaoVienLopDTO;
 import com.example.websitemanageschooltinhdong.dto.request.HocSinhLopDTO;
 import com.example.websitemanageschooltinhdong.dto.request.LopDTO;
 import com.example.websitemanageschooltinhdong.dto.response.LopGiaoVienResponse;
+import com.example.websitemanageschooltinhdong.exception.ErrorResponse;
+import com.example.websitemanageschooltinhdong.exception.RecordNotFoundException;
 import com.example.websitemanageschooltinhdong.service.LopService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/lop")
@@ -52,6 +56,13 @@ public class LopController {
     public ResponseEntity<Boolean> updatehocsinhinlop(@RequestBody HocSinhLopDTO hocSinhLop) {
         return new ResponseEntity<>(lopService.updateLenLop(hocSinhLop.getTen(), hocSinhLop.getYear(), hocSinhLop.getIdgv(), hocSinhLop.getIdlop()), HttpStatus.OK
         );
+    }
+    @ExceptionHandler(RecordNotFoundException.class)
+    public final ResponseEntity<Object> handleUserNotFoundException(RecordNotFoundException ex) {
+        Map<String, String> details = new HashMap<>();
+        details.put("error", ex.getLocalizedMessage());
+        ErrorResponse error = new ErrorResponse("Record Not Found", false, details);
+        return new ResponseEntity(error, HttpStatus.NOT_FOUND);
     }
 
 }

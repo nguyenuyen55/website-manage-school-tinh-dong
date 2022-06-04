@@ -1,6 +1,7 @@
 package com.example.websitemanageschooltinhdong.service.impl;
 
 import com.example.websitemanageschooltinhdong.domain.TinTuc;
+import com.example.websitemanageschooltinhdong.dto.request.TinTucDTO;
 import com.example.websitemanageschooltinhdong.exception.RecordNotFoundException;
 import com.example.websitemanageschooltinhdong.repository.TinTucRepository;
 import com.example.websitemanageschooltinhdong.service.TinTucService;
@@ -25,8 +26,12 @@ public class TinTucServiceImpl implements TinTucService {
     }
 
     @Override
-    public TinTuc create(TinTuc tintuc) {
-        return tinTucRepository.save(tintuc);
+    public TinTuc create(TinTucDTO tinTucDTO) {
+        TinTuc tinTuc = new TinTuc();
+        tinTuc.setTieuDe(tinTucDTO.getTieuDe());
+        tinTuc.setHinhAnh(tinTucDTO.getHinhAnh());
+        tinTuc.setNoiDung(tinTucDTO.getNoiDung());
+        return tinTucRepository.save(tinTuc);
     }
 
     @Override

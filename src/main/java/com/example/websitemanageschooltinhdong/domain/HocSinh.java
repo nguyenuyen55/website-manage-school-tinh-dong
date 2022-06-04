@@ -33,13 +33,13 @@ public class HocSinh {
     private String sdtBoMe;
     private String hinhAnh;
     private Boolean isActive;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     private NguoiDung nguoiDung;
     @OneToOne(mappedBy = "hocSinh")
     @JsonIgnore
     private HocKiHocSinh hocKiHocSinh;
-    @ManyToOne(fetch=FetchType.EAGER)
-    private Lop lop;
+    //    @ManyToOne(fetch=FetchType.EAGER)
+//    private Lop lop;
 //    @ManyToMany(fetch = FetchType.EAGER)
 //    @Fetch(FetchMode.SUBSELECT)
 //    @JoinTable(name = "movie_producer",
@@ -49,5 +49,9 @@ public class HocSinh {
 //    @OneToMany(mappedBy = "hocSinh")
 //    @JsonIgnore
 //    List<Diem> diems;
+    @OneToMany(mappedBy = "hocSinh")
+    @JsonIgnore
+    List<HocSinhLop> hocSinhLops;
+
 
 }

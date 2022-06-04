@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.*;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
@@ -45,6 +46,8 @@ public class HomeController {
         String jwt = null;
         String status = "";
         HttpStatus httpStatus = null;
+        String username="";
+        GrantedAuthority role=null;
         try {
             authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
@@ -53,7 +56,10 @@ public class HomeController {
                     )
             );
             SecurityContextHolder.getContext().setAuthentication(authentication);
+
             jwt = jwtTokenProvider.generateToken((CustomUserDetails) authentication.getPrincipal());
+            username= ((CustomUserDetails) authentication.getPrincipal()).getUsername();
+            role=((CustomUserDetails) authentication.getPrincipal()).getAuthorities().iterator().next();
             status = "Success";
             httpStatus = HttpStatus.OK;
         } catch (DisabledException disabledException) {
@@ -69,7 +75,7 @@ public class HomeController {
             status = "Error server";
             httpStatus = HttpStatus.BAD_REQUEST;
         }
-        return new ResponseEntity<>(new LoginResponse(jwt,status),httpStatus);
+        return new ResponseEntity<>(new LoginResponse(jwt,status,username,role.getAuthority()),httpStatus);
 
     }
     @ExceptionHandler(RecordNotFoundException.class)

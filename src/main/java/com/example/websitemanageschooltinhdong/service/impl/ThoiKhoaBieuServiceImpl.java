@@ -56,7 +56,9 @@ public class ThoiKhoaBieuServiceImpl implements ChiTietBieuService {
                     .thuTu(timeTableDTO.getThuTu())
                     .id(timeTableDTO.getId())
                     .build();
-            chiTietThoiKhoaBieus.add(chiTietBieuRespository.save(chiTietThoiKhoaBieu));
+       ChiTietThoiKhoaBieu chiTietThoiKhoaBieuReal=chiTietBieuRespository.save(chiTietThoiKhoaBieu);
+//            chiTietThoiKhoaBieus.add(chiTietThoiKhoaBieu);
+            chiTietThoiKhoaBieus.add(chiTietThoiKhoaBieuReal);
         }
         return chiTietThoiKhoaBieus;
     }
