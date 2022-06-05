@@ -80,4 +80,14 @@ public class BaiGiangServiceImp implements BaiGiangService {
         return baiGiangResposity.findAll();
     }
 
+    @Override
+    public List<BaiGiang> getAllByMonHocAndTenChuongHoc(Integer idchuong,String idmon,String name) {
+        if(idchuong==null){
+            return baiGiangResposity.findAllByChuongHoc_MonHoc_IdAndTenContaining(idmon,name);
+
+        }
+
+        return baiGiangResposity.findAllByChuongHoc_IdAndChuongHoc_MonHoc_IdAndTenContaining(idchuong,idmon,name);
+    }
+
 }

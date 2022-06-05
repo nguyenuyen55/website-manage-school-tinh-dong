@@ -19,7 +19,7 @@ public class MonHocController {
     MonHocRepository monHocRepository;
 
     @GetMapping("/{khoi}")
-public ResponseEntity<List<MonHoc>> getAllByIdKhoi(@PathVariable("khoi") int idKhoi){
-        return new  ResponseEntity<>(monHocRepository.findAllByKhoiId(idKhoi), HttpStatus.OK);
+    public ResponseEntity<List<MonHoc>> getAllByIdKhoi(@PathVariable("khoi") int idKhoi) {
+        return new ResponseEntity<>(monHocRepository.findAllByKhoiId(idKhoi), HttpStatus.OK);
     }
 }

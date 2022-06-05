@@ -14,4 +14,5 @@ public interface BaiGiangService {
     BaiGiang updateBaiGiang(BaiGiangDTO baiGiangDTO);
     Boolean deleteBaiGiang(int id);
     List<BaiGiang> getall();
+    List<BaiGiang> getAllByMonHocAndTenChuongHoc(Integer idchuong,String idmon,String name);
 }
