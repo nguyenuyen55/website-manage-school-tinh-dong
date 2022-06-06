@@ -40,6 +40,11 @@ public class LopController {
     public ResponseEntity<Lop> getLop(@PathVariable("id") int id) {
         return new ResponseEntity<>(lopService.detail(id), HttpStatus.OK);
     }
+    //xem danh sach lop boi id
+    @GetMapping("/khoi/{idkhoi}")
+    public ResponseEntity<List<Lop>> getLopByIdKhoi(@PathVariable("idkhoi") int id) {
+        return new ResponseEntity<>(lopService.findAllByBlock(id), HttpStatus.OK);
+    }
 
     //chinh sua giao vien
     @PostMapping("/updatelop")

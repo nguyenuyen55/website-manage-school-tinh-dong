@@ -16,6 +16,7 @@ public interface LopService {
     Boolean delete(int id);
     Lop detail(int id);
     List<Lop> findAll();
+    List<Lop> findAllByBlock(int id);
     List<LopGiaoVienResponse> findAllLop();
     Boolean updadegvlop(GiaoVienLopDTO giaoVienLopDTO);
     Boolean updateLenLop(String ten , int year,String idgv,int idLop);

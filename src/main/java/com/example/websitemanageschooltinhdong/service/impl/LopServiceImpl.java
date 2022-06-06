@@ -84,6 +84,14 @@ public class LopServiceImpl implements LopService {
     }
 
     @Override
+    public List<Lop> findAllByBlock(int id) {
+        if(lopRepository.findAllByKhoi_Id(id).size()==0){
+            throw new RecordNotFoundException("Không tìm thấy lớp học của khối này");
+        }
+        return lopRepository.findAllByKhoi_Id(id);
+    }
+
+    @Override
     public List<LopGiaoVienResponse> findAllLop() {
         List<LopGiaoVienResponse> responseList = new ArrayList<>();
         List<Lop> lopList = lopRepository.findAll();
@@ -93,8 +101,12 @@ public class LopServiceImpl implements LopService {
             lopGiaoVienResponse.setTenLop(lop.getTen());
 
             GiaoVienLop giaoVienLop = giaoVienlopRepository.findByLop_IdAndActiveTrue(lop.getId());
-            lopGiaoVienResponse.setIdgv(giaoVienLop.getGiaoVien().getId());
-            lopGiaoVienResponse.setCoChuNhiem(giaoVienLop.getGiaoVien().getTen());
+            if(giaoVienLop!=null) {
+                lopGiaoVienResponse.setIdgv(giaoVienLop.getGiaoVien().getId());
+                lopGiaoVienResponse.setCoChuNhiem(giaoVienLop.getGiaoVien().getTen());
+            }
+
+            lopGiaoVienResponse.setCoChuNhiem("chưa có");
             lopGiaoVienResponse.setIdLop(lop.getId());
             lopGiaoVienResponse.setNiemKhoa(lop.getNamHoc().getYear());
             responseList.add(lopGiaoVienResponse);
