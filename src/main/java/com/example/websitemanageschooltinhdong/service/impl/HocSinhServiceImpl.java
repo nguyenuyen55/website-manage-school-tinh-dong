@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 
 @Service
@@ -103,7 +104,7 @@ public class HocSinhServiceImpl implements HocSinhService {
 
         //set nguoi nguoi cũng nhu tao nguoi dùng tendn, mk ,quyen,
         NguoiDung nguoiDung = NguoiDung.builder()
-                .tenDangNhap(hocsinhreal.getId())
+                .tenDangNhap(hocsinhreal.getId().toLowerCase())
                 .matKhau(passwordEncoder.encode("hs123"))
                 .quyen("ROLE_STUDENT")
                 .build();
