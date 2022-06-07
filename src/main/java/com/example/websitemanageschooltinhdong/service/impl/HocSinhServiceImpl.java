@@ -110,11 +110,7 @@ public class HocSinhServiceImpl implements HocSinhService {
                 .build();
         hocsinhreal.setNguoiDung(nguoiDung);
         //save một đối tượng chứa id lop và id hoc sinh
-
-
 //        tạo mới một đối tượng giáo viên lóp mới
-
-
         HocSinhLop hocSinhLop = new HocSinhLop();
         hocSinhLop.setHocSinh(hocSinhRespository.save(hocsinhreal));
         hocSinhLop.setLop(lop.get());
@@ -123,14 +119,14 @@ public class HocSinhServiceImpl implements HocSinhService {
 ////check nam hoc va lay doi tuong nam hoc
 ////tạo list học kì đã có sẵn
 //        int year=
-//        List<HocKi> hocKis = hocKiRepository.findAllByNamHocYear(new Date().getYear()+1900);
-//        NamHoc namhocReal = namHocRepository.findByYear(new Date().getYear()+1900);
-//        HocKi hockiNew = null;
-//        HocKi hockiNew1 = null;
-//        if (hocKis.size() != 0) {
-//            hockiNew = hocKis.get(0);
-//            hockiNew1 = hocKis.get(1);
-//        }
+        List<HocKi> hocKis = hocKiRepository.findAllByNamHocYear(new Date().getYear()+1900);
+        NamHoc namhocReal = namHocRepository.findByYear(new Date().getYear()+1900);
+        HocKi hockiNew = null;
+        HocKi hockiNew1 = null;
+        if (hocKis.size() != 0) {
+            hockiNew = hocKis.get(0);
+            hockiNew1 = hocKis.get(1);
+        }
 //        if (namhocReal == null) {
 //            NamHoc namHocNew = new NamHoc();
 //            namHocNew.setYear(new Date().getYear());
@@ -146,17 +142,17 @@ public class HocSinhServiceImpl implements HocSinhService {
 //            hockiNew1 = hocKiRepository.save(hocKi1);
 //        }
 //        //nếu có thì lấy học kì của năm học đó không có thì tạo mới
-//        HocKiHocSinh hocKiHocSinh = new HocKiHocSinh();
-//         hocKiHocSinh.setHocSinh(hocsinhreal);
-//        hocKiHocSinh.setHocKi(hockiNew);
-//        //set tung mon cua khoi dó cho diem mon hoc của 2 kì
-//        HocKiHocSinh hocKiHocSinhReal = hocKiHocSinhRepository.save(hocKiHocSinh);
-//        setdiem(hocSinhLop.getLop(), hocKiHocSinhReal);
-//        HocKiHocSinh hocKiHocSinh2 = new HocKiHocSinh();
-//        hocKiHocSinh2.setHocSinh(hocsinhreal);
-//        hocKiHocSinh2.setHocKi(hockiNew1);
-//        HocKiHocSinh hocKiHocSinhReal1 = hocKiHocSinhRepository.save(hocKiHocSinh2);
-//        setdiem(hocSinhLop.getLop(), hocKiHocSinhReal1);
+        HocKiHocSinh hocKiHocSinh = new HocKiHocSinh();
+         hocKiHocSinh.setHocSinh(hocsinhreal);
+        hocKiHocSinh.setHocKi(hockiNew);
+        //set tung mon cua khoi dó cho diem mon hoc của 2 kì
+        HocKiHocSinh hocKiHocSinhReal = hocKiHocSinhRepository.save(hocKiHocSinh);
+        setdiem(hocSinhLop.getLop(), hocKiHocSinhReal);
+        HocKiHocSinh hocKiHocSinh2 = new HocKiHocSinh();
+        hocKiHocSinh2.setHocSinh(hocsinhreal);
+        hocKiHocSinh2.setHocKi(hockiNew1);
+        HocKiHocSinh hocKiHocSinhReal1 = hocKiHocSinhRepository.save(hocKiHocSinh2);
+        setdiem(hocSinhLop.getLop(), hocKiHocSinhReal1);
         return hocSinhRespository.save(hocsinhreal);
     }
 
