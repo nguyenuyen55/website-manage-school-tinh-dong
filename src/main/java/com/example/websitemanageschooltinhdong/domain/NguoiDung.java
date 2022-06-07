@@ -18,12 +18,10 @@ public class NguoiDung {
     private String tenDangNhap;
     private String matKhau;
     private String quyen;
-    @OneToOne(mappedBy = "nguoiDung")
+    @OneToOne(mappedBy = "nguoiDung",cascade = CascadeType.ALL)
     @JsonIgnore
     private GiaoVien giaoVien;
-    @OneToOne(mappedBy = "nguoiDung")
+    @OneToOne(mappedBy = "nguoiDung",cascade = CascadeType.ALL)
     @JsonIgnore
     private HocSinh hocSinh;
-
-
 }

@@ -1,6 +1,7 @@
 package com.example.websitemanageschooltinhdong.security.service;
 
 import com.example.websitemanageschooltinhdong.domain.NguoiDung;
+import com.example.websitemanageschooltinhdong.dto.request.NguoiDungDTO;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -12,7 +13,7 @@ import java.util.Collections;
 @AllArgsConstructor
 
 public class CustomUserDetails implements UserDetails {
-   NguoiDung nguoiDung;
+   NguoiDungDTO nguoiDung;
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Collections.singleton(new SimpleGrantedAuthority(nguoiDung.getQuyen()));

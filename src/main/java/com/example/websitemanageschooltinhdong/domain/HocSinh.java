@@ -34,6 +34,7 @@ public class HocSinh {
     private String hinhAnh;
     private Boolean isActive;
     @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @JsonIgnore
     private NguoiDung nguoiDung;
     @OneToOne(mappedBy = "hocSinh")
     @JsonIgnore
