@@ -119,48 +119,43 @@ public class HocSinhServiceImpl implements HocSinhService {
         hocSinhLop.setLop(lop.get());
         hocSinhLop.setActive(true);
         hocSinhLopRepository.save(hocSinhLop);
-//check nam hoc va lay doi tuong nam hoc
-//tạo list học kì đã có sẵn
-        List<HocKi> hocKis = hocKiRepository.findAllByNamHocYear(new Date().getYear()+1900);
-        NamHoc namhocReal = namHocRepository.findByYear(new Date().getYear()+1900);
-        HocKi hockiNew = null;
-        HocKi hockiNew1 = null;
-        if (hocKis.size() != 0) {
-            hockiNew = hocKis.get(0);
-            hockiNew1 = hocKis.get(1);
-        }
-        if (namhocReal == null) {
-            NamHoc namHocNew = new NamHoc();
-            namHocNew.setYear(new Date().getYear());
-            namhocReal = namHocRepository.save(namHocNew);
-            //Tạo học kìs
-            HocKi hocKi = new HocKi();
-            hocKi.setName("học kì 1");
-            hocKi.setNamHoc(namhocReal);
-            HocKi hocKi1 = new HocKi();
-            hocKi1.setName("học kì 2");
-            hocKi1.setNamHoc(namhocReal);
-            hockiNew = hocKiRepository.save(hocKi);
-            hockiNew1 = hocKiRepository.save(hocKi1);
-        }
-        //nếu có thì lấy học kì của năm học đó không có thì tạo mới
-        HocKiHocSinh hocKiHocSinh = new HocKiHocSinh();
-        hocKiHocSinh.setHocSinh(hocsinhreal);
-        hocKiHocSinh.setHocKi(hockiNew);
-        //set tung mon cua khoi dó cho diem mon hoc của 2 kì
-        HocKiHocSinh hocKiHocSinhReal = hocKiHocSinhRepository.save(hocKiHocSinh);
-        setdiem(hocSinhLop.getLop(), hocKiHocSinhReal);
-        HocKiHocSinh hocKiHocSinh2 = new HocKiHocSinh();
-        hocKiHocSinh2.setHocSinh(hocsinhreal);
-        hocKiHocSinh2.setHocKi(hockiNew1);
-        HocKiHocSinh hocKiHocSinhReal1 = hocKiHocSinhRepository.save(hocKiHocSinh2);
-       setdiem(hocSinhLop.getLop(), hocKiHocSinhReal1);
-
-        //set hoc kì cho học sinh trong bảng học kì học sinh
-
-        //set điểm
-
-
+////check nam hoc va lay doi tuong nam hoc
+////tạo list học kì đã có sẵn
+//        int year=
+//        List<HocKi> hocKis = hocKiRepository.findAllByNamHocYear(new Date().getYear()+1900);
+//        NamHoc namhocReal = namHocRepository.findByYear(new Date().getYear()+1900);
+//        HocKi hockiNew = null;
+//        HocKi hockiNew1 = null;
+//        if (hocKis.size() != 0) {
+//            hockiNew = hocKis.get(0);
+//            hockiNew1 = hocKis.get(1);
+//        }
+//        if (namhocReal == null) {
+//            NamHoc namHocNew = new NamHoc();
+//            namHocNew.setYear(new Date().getYear());
+//            namhocReal = namHocRepository.save(namHocNew);
+//            //Tạo học kìs
+//            HocKi hocKi = new HocKi();
+//            hocKi.setName("học kì 1");
+//            hocKi.setNamHoc(namhocReal);
+//            HocKi hocKi1 = new HocKi();
+//            hocKi1.setName("học kì 2");
+//            hocKi1.setNamHoc(namhocReal);
+//            hockiNew = hocKiRepository.save(hocKi);
+//            hockiNew1 = hocKiRepository.save(hocKi1);
+//        }
+//        //nếu có thì lấy học kì của năm học đó không có thì tạo mới
+//        HocKiHocSinh hocKiHocSinh = new HocKiHocSinh();
+//         hocKiHocSinh.setHocSinh(hocsinhreal);
+//        hocKiHocSinh.setHocKi(hockiNew);
+//        //set tung mon cua khoi dó cho diem mon hoc của 2 kì
+//        HocKiHocSinh hocKiHocSinhReal = hocKiHocSinhRepository.save(hocKiHocSinh);
+//        setdiem(hocSinhLop.getLop(), hocKiHocSinhReal);
+//        HocKiHocSinh hocKiHocSinh2 = new HocKiHocSinh();
+//        hocKiHocSinh2.setHocSinh(hocsinhreal);
+//        hocKiHocSinh2.setHocKi(hockiNew1);
+//        HocKiHocSinh hocKiHocSinhReal1 = hocKiHocSinhRepository.save(hocKiHocSinh2);
+//        setdiem(hocSinhLop.getLop(), hocKiHocSinhReal1);
         return hocSinhRespository.save(hocsinhreal);
     }
 
