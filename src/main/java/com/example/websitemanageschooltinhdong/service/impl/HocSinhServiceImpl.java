@@ -1,25 +1,24 @@
 package com.example.websitemanageschooltinhdong.service.impl;
 
-import com.example.websitemanageschooltinhdong.domain.HocSinh;
-import com.example.websitemanageschooltinhdong.domain.HocSinhLop;
-import com.example.websitemanageschooltinhdong.domain.Lop;
-import com.example.websitemanageschooltinhdong.domain.NguoiDung;
+import com.example.websitemanageschooltinhdong.domain.*;
 import com.example.websitemanageschooltinhdong.dto.request.HocSinhDTO;
 import com.example.websitemanageschooltinhdong.exception.RecordNotFoundException;
-import com.example.websitemanageschooltinhdong.repository.HocSinhLopRepository;
-import com.example.websitemanageschooltinhdong.repository.HocSinhRespository;
-import com.example.websitemanageschooltinhdong.repository.LopRepository;
-import com.example.websitemanageschooltinhdong.repository.NguoiDungRepository;
+import com.example.websitemanageschooltinhdong.repository.*;
 import com.example.websitemanageschooltinhdong.service.HocSinhService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class HocSinhServiceImpl implements HocSinhService {
+    @Autowired
+    DiemRepository diemRepository;
+    @Autowired
+    MonHocRepository monHocRepository;
     @Autowired
     HocSinhRespository hocSinhRespository;
     @Autowired
@@ -28,6 +27,13 @@ public class HocSinhServiceImpl implements HocSinhService {
     HocSinhLopRepository hocSinhLopRepository;
     @Autowired
     LopRepository lopRepository;
+    @Autowired
+    HocKiRepository hocKiRepository;
+    @Autowired
+    HocKiHocSinhRepository hocKiHocSinhRepository;
+
+    @Autowired
+    NamHocRepository namHocRepository;
     private final PasswordEncoder passwordEncoder;
 
     public HocSinhServiceImpl(PasswordEncoder passwordEncoder) {
@@ -57,8 +63,8 @@ public class HocSinhServiceImpl implements HocSinhService {
     @Override
     public List<HocSinh> findALL() {
         List<HocSinh> findAll = hocSinhRespository.findAll();
-        if(findAll.size()==0){
-           throw new RecordNotFoundException("Không tìm thấy sinh viên nào");
+        if (findAll.size() == 0) {
+            throw new RecordNotFoundException("Không tìm thấy sinh viên nào");
         }
         return findAll;
     }
@@ -74,10 +80,9 @@ public class HocSinhServiceImpl implements HocSinhService {
     public HocSinh create(HocSinhDTO hocSinhDTO) {
 
 
-
         Optional<Lop> lop = lopRepository.findById(hocSinhDTO.getIdLop());
         if (!lop.isPresent()) {
-            throw new RecordNotFoundException("NOt found lớp");
+            throw new RecordNotFoundException("Lớp này không tồn tại");
         }
 
 //set hoc sinh
@@ -98,20 +103,13 @@ public class HocSinhServiceImpl implements HocSinhService {
 
         //set nguoi nguoi cũng nhu tao nguoi dùng tendn, mk ,quyen,
         NguoiDung nguoiDung = NguoiDung.builder()
-                .tenDangNhap( hocsinhreal.getId())
+                .tenDangNhap(hocsinhreal.getId())
                 .matKhau(passwordEncoder.encode("hs123"))
-                .quyen("ROLE_USER")
+                .quyen("ROLE_STUDENT")
                 .build();
         hocsinhreal.setNguoiDung(nguoiDung);
         //save một đối tượng chứa id lop và id hoc sinh
-//        List<HocSinhLop> lophss = hocSinhLopRepository.findAllByLop_Id(lop.get().getId());
-//
-//        if (lophss.size() != 0) {
-//            for (HocSinhLop hocSinhLop : lophss) {
-//                hocSinhLop.setActive(false);
-//                hocSinhLopRepository.save(hocSinhLop);
-//            }
-//        }
+
 
 //        tạo mới một đối tượng giáo viên lóp mới
 
@@ -121,7 +119,49 @@ public class HocSinhServiceImpl implements HocSinhService {
         hocSinhLop.setLop(lop.get());
         hocSinhLop.setActive(true);
         hocSinhLopRepository.save(hocSinhLop);
-        return hocSinhRespository.save(hocsinhreal) ;
+//check nam hoc va lay doi tuong nam hoc
+//tạo list học kì đã có sẵn
+        List<HocKi> hocKis = hocKiRepository.findAllByNamHocYear(new Date().getYear()+1900);
+        NamHoc namhocReal = namHocRepository.findByYear(new Date().getYear()+1900);
+        HocKi hockiNew = null;
+        HocKi hockiNew1 = null;
+        if (hocKis.size() != 0) {
+            hockiNew = hocKis.get(0);
+            hockiNew1 = hocKis.get(1);
+        }
+        if (namhocReal == null) {
+            NamHoc namHocNew = new NamHoc();
+            namHocNew.setYear(new Date().getYear());
+            namhocReal = namHocRepository.save(namHocNew);
+            //Tạo học kì
+            HocKi hocKi = new HocKi();
+            hocKi.setName("học kì 1");
+            hocKi.setNamHoc(namhocReal);
+            HocKi hocKi1 = new HocKi();
+            hocKi1.setName("học kì 2");
+            hocKi1.setNamHoc(namhocReal);
+            hockiNew = hocKiRepository.save(hocKi);
+            hockiNew1 = hocKiRepository.save(hocKi1);
+        }
+        //nếu có thì lấy học kì của năm học đó không có thì tạo mới
+        HocKiHocSinh hocKiHocSinh = new HocKiHocSinh();
+        hocKiHocSinh.setHocSinh(hocsinhreal);
+        hocKiHocSinh.setHocKi(hockiNew);
+        //set tung mon cua khoi dó cho diem mon hoc của 2 kì
+        HocKiHocSinh hocKiHocSinhReal = hocKiHocSinhRepository.save(hocKiHocSinh);
+        setdiem(hocSinhLop.getLop(), hocKiHocSinhReal);
+        HocKiHocSinh hocKiHocSinh2 = new HocKiHocSinh();
+        hocKiHocSinh2.setHocSinh(hocsinhreal);
+        hocKiHocSinh2.setHocKi(hockiNew1);
+        HocKiHocSinh hocKiHocSinhReal1 = hocKiHocSinhRepository.save(hocKiHocSinh2);
+       setdiem(hocSinhLop.getLop(), hocKiHocSinhReal1);
+
+        //set hoc kì cho học sinh trong bảng học kì học sinh
+
+        //set điểm
+
+
+        return hocSinhRespository.save(hocsinhreal);
     }
 
     @Override
@@ -164,7 +204,7 @@ public class HocSinhServiceImpl implements HocSinhService {
     @Override
     public HocSinh detailById(String id) {
         Optional<HocSinh> hocSinh = hocSinhRespository.findById(id);
-        if(!hocSinh.isPresent()){
+        if (!hocSinh.isPresent()) {
             throw new RecordNotFoundException("Không tìm thấy học sinh này");
         }
         return hocSinh.get();
@@ -179,7 +219,6 @@ public class HocSinhServiceImpl implements HocSinhService {
         }
 
 
-
         Optional<NguoiDung> nguoiDung = nguoiDungRepository.findById(hocSinhCheck.get().getNguoiDung().getId());
         if (nguoiDung.isPresent()) {
             hocSinhCheck.get().setNguoiDung(null);
@@ -187,12 +226,72 @@ public class HocSinhServiceImpl implements HocSinhService {
         }
         List<HocSinhLop> hocSinhLops = hocSinhLopRepository.findAllByHocSinh_Id(id);
 
-        for (HocSinhLop hocSinhLop :hocSinhLops){
+        for (HocSinhLop hocSinhLop : hocSinhLops) {
             hocSinhLopRepository.delete(hocSinhLop);
         }
         hocSinhRespository.save(hocSinhCheck.get());
         nguoiDungRepository.delete(nguoiDung.get());
         hocSinhRespository.deleteById(id);
         return true;
+    }
+    public void setdiem(Lop lop, HocKiHocSinh hocKiHocSinh) {
+        switch (lop.getKhoi().getTen()) {
+            case "Khối 1":
+                //list ra môn học của khối đó
+                List<MonHoc> monHocs = monHocRepository.findAllByKhoiId(lop.getKhoi().getId());
+                for (MonHoc monHoc : monHocs) {
+                    if (monHoc.getTen().equals("Toán") || monHoc.getTen().equals("Tiếng việt") || monHoc.getTen().equals("Tiếng anh")) {
+                        DiemMonHoc diemMonHoc = new DiemMonHoc();
+                        diemMonHoc.setMonHoc(monHoc);
+                        diemMonHoc.setHocKiHocSinh(hocKiHocSinh);
+                        diemRepository.save(diemMonHoc);
+                    }
+                }
+                break;
+            case "Khối 2":
+                List<MonHoc> monHocs2 = monHocRepository.findAllByKhoiId(2);
+                for (MonHoc monHoc : monHocs2) {
+                    if (monHoc.getTen().equals("Toán") || monHoc.getTen().equals("Tiếng việt") || monHoc.getTen().equals("Tiếng anh")) {
+                        DiemMonHoc diemMonHoc = new DiemMonHoc();
+                        diemMonHoc.setMonHoc(monHoc);
+                        diemMonHoc.setHocKiHocSinh(hocKiHocSinh);
+                        diemRepository.save(diemMonHoc);
+                    }
+                }
+                break;
+            case "Khối 3":
+                List<MonHoc> monHocs3 = monHocRepository.findAllByKhoiId(3);
+                for (MonHoc monHoc : monHocs3) {
+                    if (monHoc.getTen().equals("Toán") || monHoc.getTen().equals("Tiếng việt") || monHoc.getTen().equals("Tiếng anh")) {
+                        DiemMonHoc diemMonHoc = new DiemMonHoc();
+                        diemMonHoc.setMonHoc(monHoc);
+                        diemMonHoc.setHocKiHocSinh(hocKiHocSinh);
+                        diemRepository.save(diemMonHoc);
+                    }
+                }
+                break;
+            case "Khối 4":
+                List<MonHoc> monHocs4 = monHocRepository.findAllByKhoiId(4);
+                for (MonHoc monHoc : monHocs4) {
+                    if (monHoc.getTen().equals("Toán") || monHoc.getTen().equals("Tiếng việt") || monHoc.getTen().equals("Tiếng anh") || monHoc.getTen().equals("Lịch sử và địa lí")) {
+                        DiemMonHoc diemMonHoc = new DiemMonHoc();
+                        diemMonHoc.setMonHoc(monHoc);
+                        diemMonHoc.setHocKiHocSinh(hocKiHocSinh);
+                        diemRepository.save(diemMonHoc);
+                    }
+                }
+                break;
+            case "Khối 5":
+                List<MonHoc> monHocs5 = monHocRepository.findAllByKhoiId(5);
+                for (MonHoc monHoc : monHocs5) {
+                    if (monHoc.getTen().equals("Toán") || monHoc.getTen().equals("Tiếng việt") || monHoc.getTen().equals("Tiếng anh") || monHoc.getTen().equals("Lịch sử và địa lí")) {
+                        DiemMonHoc diemMonHoc = new DiemMonHoc();
+                        diemMonHoc.setMonHoc(monHoc);
+                        diemMonHoc.setHocKiHocSinh(hocKiHocSinh);
+                        diemRepository.save(diemMonHoc);
+                    }
+                }
+                break;
+        }
     }
 }

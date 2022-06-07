@@ -13,7 +13,7 @@ public class MonHoc {
     @Id
     private String id;
     private String ten;
-//    @OneToOne(cascade = CascadeType.ALL)
+    //    @OneToOne(cascade = CascadeType.ALL)
 //    @JsonIgnore
 //    private Diem diem;
 //    @OneToMany(mappedBy = "monHoc")
@@ -21,13 +21,12 @@ public class MonHoc {
 //    List<BaiGiang> baiGiangs;
     @ManyToOne
     @JsonIgnore
-    @JsonBackReference
     private Khoi khoi;
     @OneToMany(mappedBy = "monHoc")
-        @JsonBackReference
+    @JsonBackReference
     List<ChuongHoc> chuongHocs;
     @OneToMany(mappedBy = "monHoc")
-            @JsonIgnore
+    @JsonIgnore
     List<ChiTietThoiKhoaBieu> chiTietThoiKhoaBieu;
     @OneToMany(mappedBy = "monHoc")
     @JsonIgnore

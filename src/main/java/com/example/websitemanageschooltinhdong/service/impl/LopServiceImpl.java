@@ -40,6 +40,7 @@ public class LopServiceImpl implements LopService {
     GiaoVienLopRepository giaoVienlopRepository;
     @Autowired
     HocSinhLopRepository hocSinhLopRepository;
+
     @Override
     public Lop create(LopDTO lopDTO) {
         Optional<Khoi> khoiOptional = khoiRepository.findById(lopDTO.getIdKhoi());
@@ -85,7 +86,7 @@ public class LopServiceImpl implements LopService {
 
     @Override
     public List<Lop> findAllByBlock(int id) {
-        if(lopRepository.findAllByKhoi_Id(id).size()==0){
+        if (lopRepository.findAllByKhoi_Id(id).size() == 0) {
             throw new RecordNotFoundException("Không tìm thấy lớp học của khối này");
         }
         return lopRepository.findAllByKhoi_Id(id);
@@ -101,7 +102,7 @@ public class LopServiceImpl implements LopService {
             lopGiaoVienResponse.setTenLop(lop.getTen());
 
             GiaoVienLop giaoVienLop = giaoVienlopRepository.findByLop_IdAndActiveTrue(lop.getId());
-            if(giaoVienLop!=null) {
+            if (giaoVienLop != null) {
                 lopGiaoVienResponse.setIdgv(giaoVienLop.getGiaoVien().getId());
                 lopGiaoVienResponse.setCoChuNhiem(giaoVienLop.getGiaoVien().getTen());
             }
@@ -223,16 +224,11 @@ public class LopServiceImpl implements LopService {
         giaoVienlopRepository.save(giaoVienLop);
 
 
-
-
 //set list học sinh lại
         //tạo 2 kì tiếp theo cho học sinh
 
-List<HocSinhLop> listhocsinhlop =hocSinhLopRepository.findAllByLop_IdAndActiveTrue(idlop);
-//        List<HocSinh> hocSinhs = hocSinhRespository.findAllByLop_id(idlop);
-//        List<HocSinh> hocSinhs = hocSinhRespository.findAll();
+        List<HocSinhLop> listhocsinhlop = hocSinhLopRepository.findAllByLop_IdAndActiveTrue(idlop);
 
-//        for (HocSinhLop hocSinh : hocSinhs) {
         for (HocSinhLop hocsinhlopIndex : listhocsinhlop) {
             List<HocSinhLop> hocSinhLops = hocSinhLopRepository.findAllByHocSinh_Id(hocsinhlopIndex.getHocSinh().getId());
             if (hocSinhLops.size() != 0) {
@@ -241,27 +237,19 @@ List<HocSinhLop> listhocsinhlop =hocSinhLopRepository.findAllByLop_IdAndActiveTr
                     hocSinhLopRepository.save(hocSinhLop);
                 }
             }
-//            List<HocSinhLop> lophss = hocSinhLopRepository.findAllByLop_Id(lopNew.getId());
-//
-//            if (lophss.size() != 0) {
-//                for (HocSinhLop hocSinhLop : hocSinhLops) {
-//                    hocSinhLop.setActive(false);
-//                    hocSinhLopRepository.save(hocSinhLop);
-//                }
-//            }
+
             HocSinhLop hocSinhLop = new HocSinhLop();
             hocSinhLop.setHocSinh(hocsinhlopIndex.getHocSinh());
             hocSinhLop.setLop(lopNew);
             hocSinhLop.setActive(true);
             hocSinhLopRepository.save(hocSinhLop);
-//            hocSinh.setLop(lopNew);??
             hocSinhRespository.save(hocsinhlopIndex.getHocSinh());
             HocKiHocSinh hocKiHocSinh = new HocKiHocSinh();
             hocKiHocSinh.setHocSinh(hocsinhlopIndex.getHocSinh());
             hocKiHocSinh.setHocKi(hockiNew);
             //set tung mon cua khoi dó cho diem mon hoc của 2 kì
             HocKiHocSinh hocKiHocSinhReal = hocKiHocSinhRepository.save(hocKiHocSinh);
-            setdiem( lopNew, hocKiHocSinhReal);
+            setdiem(lopNew, hocKiHocSinhReal);
             HocKiHocSinh hocKiHocSinh2 = new HocKiHocSinh();
             hocKiHocSinh2.setHocSinh(hocsinhlopIndex.getHocSinh());
             hocKiHocSinh2.setHocKi(hockiNew1);
@@ -275,7 +263,7 @@ List<HocSinhLop> listhocsinhlop =hocSinhLopRepository.findAllByLop_IdAndActiveTr
         switch (lop.getKhoi().getTen()) {
             case "Khối 1":
                 //list ra môn học của khối đó
-                List<MonHoc> monHocs = monHocRepository.findAllByKhoiId(1);
+                List<MonHoc> monHocs = monHocRepository.findAllByKhoiId(lop.getKhoi().getId());
                 for (MonHoc monHoc : monHocs) {
                     if (monHoc.getTen().equals("Toán") || monHoc.getTen().equals("Tiếng việt") || monHoc.getTen().equals("Tiếng anh")) {
                         DiemMonHoc diemMonHoc = new DiemMonHoc();
