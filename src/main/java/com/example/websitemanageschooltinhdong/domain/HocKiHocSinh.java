@@ -17,7 +17,6 @@ public class HocKiHocSinh {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     @ManyToOne
-    @JsonBackReference
     private HocKi hocKi;
     @ManyToOne
     @JsonBackReference
