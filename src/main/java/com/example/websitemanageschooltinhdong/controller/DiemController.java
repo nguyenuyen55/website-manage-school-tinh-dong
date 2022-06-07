@@ -2,6 +2,7 @@ package com.example.websitemanageschooltinhdong.controller;
 
 import com.example.websitemanageschooltinhdong.domain.DiemMonHoc;
 import com.example.websitemanageschooltinhdong.dto.request.DiemHocSinhDTO;
+import com.example.websitemanageschooltinhdong.exception.RecordNotFoundException;
 import com.example.websitemanageschooltinhdong.service.DiemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,6 +26,10 @@ public class DiemController {
 
     @GetMapping("/{idHs}")
     public ResponseEntity<List<DiemMonHoc>> getDiemHocSinhById(@PathVariable("idHs") String id) {
+      if(diemService.getDiemByHocSinh(id).size()==0){
+          throw new RecordNotFoundException("Không tìm thấy thời khoá biểu của học sinh này");
+      }
+
         return new ResponseEntity<>(diemService.getDiemByHocSinh(id), HttpStatus.OK);
     }
 
