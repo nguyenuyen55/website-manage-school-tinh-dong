@@ -21,7 +21,6 @@ public class UserService implements UserDetailsService {
       if(nguoiDung==null){
           throw new UsernameNotFoundException("Could not find user");
       }
-        Optional<NguoiDung> nguoiDungTG = nguoiDungRepository.findById(nguoiDung.getId());
 
         return new CustomUserDetails(nguoiDung);
     }

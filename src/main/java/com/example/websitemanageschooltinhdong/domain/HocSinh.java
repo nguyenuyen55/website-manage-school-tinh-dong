@@ -19,7 +19,7 @@ public class HocSinh {
     @Id
     @GeneratedValue(generator = "hs-generator")
     @GenericGenerator(name = "hs-generator",
-            parameters = @org.hibernate.annotations.Parameter(name = "prefix", value = "HS"),
+            parameters = @org.hibernate.annotations.Parameter(name = "prefix", value = "hs"),
             strategy = "com.example.websitemanageschooltinhdong.domain.IdGenerator")
     private String id;
     private String ten;
