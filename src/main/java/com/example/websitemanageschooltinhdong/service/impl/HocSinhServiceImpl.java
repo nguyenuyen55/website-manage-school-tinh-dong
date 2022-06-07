@@ -133,7 +133,7 @@ public class HocSinhServiceImpl implements HocSinhService {
             NamHoc namHocNew = new NamHoc();
             namHocNew.setYear(new Date().getYear());
             namhocReal = namHocRepository.save(namHocNew);
-            //Tạo học kì
+            //Tạo học kìs
             HocKi hocKi = new HocKi();
             hocKi.setName("học kì 1");
             hocKi.setNamHoc(namhocReal);
