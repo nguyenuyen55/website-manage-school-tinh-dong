@@ -28,4 +28,5 @@ public interface HocSinhService {
     HocSinh detailById(String id);
 
     Boolean delete(String id);
+    Boolean updateMarkWhenCreateStudent(String idhs);
 }
