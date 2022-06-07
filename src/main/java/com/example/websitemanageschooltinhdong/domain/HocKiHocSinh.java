@@ -1,21 +1,26 @@
 package com.example.websitemanageschooltinhdong.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Data;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Data
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class HocKiHocSinh {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne
+    @JsonBackReference
     private HocKi hocKi;
-    @OneToOne(cascade = CascadeType.ALL)
-    @JsonIgnore
+    @ManyToOne
+    @JsonBackReference
     private HocSinh hocSinh;
     @OneToMany(mappedBy = "hocKiHocSinh")
     @JsonIgnore

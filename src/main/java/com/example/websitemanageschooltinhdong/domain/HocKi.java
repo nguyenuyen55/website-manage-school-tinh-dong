@@ -1,21 +1,26 @@
 package com.example.websitemanageschooltinhdong.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Data;
+import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
-@Data
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class HocKi {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     private String name;
-    @OneToOne(mappedBy = "hocKi")
+    @OneToMany(mappedBy = "hocKi")
     @JsonIgnore
-    private HocKiHocSinh hocKiHocSinh;
+    private List<HocKiHocSinh> hocKiHocSinhs;
     @ManyToOne
+    @JsonIgnore
     private NamHoc namHoc;
 
 }

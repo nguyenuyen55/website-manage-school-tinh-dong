@@ -36,9 +36,9 @@ public class HocSinh {
     @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @JsonIgnore
     private NguoiDung nguoiDung;
-    @OneToOne(mappedBy = "hocSinh")
+    @OneToMany(mappedBy = "hocSinh")
     @JsonIgnore
-    private HocKiHocSinh hocKiHocSinh;
+    private List<HocKiHocSinh> hocKiHocSinh;
     //    @ManyToOne(fetch=FetchType.EAGER)
 //    private Lop lop;
 //    @ManyToMany(fetch = FetchType.EAGER)
@@ -53,6 +53,4 @@ public class HocSinh {
     @OneToMany(mappedBy = "hocSinh")
     @JsonIgnore
     List<HocSinhLop> hocSinhLops;
-
-
 }

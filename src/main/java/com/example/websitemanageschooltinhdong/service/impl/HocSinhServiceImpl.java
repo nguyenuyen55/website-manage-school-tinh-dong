@@ -73,7 +73,6 @@ public class HocSinhServiceImpl implements HocSinhService {
     @Override
     public List<HocSinh> findAllIdLop(int id) {
 
-//        return hocSinhRespository.findAllByLopId(id);
         return hocSinhRespository.findAllByHocSinhLops(id);
     }
 
@@ -118,41 +117,43 @@ public class HocSinhServiceImpl implements HocSinhService {
         hocSinhLopRepository.save(hocSinhLop);
 ////check nam hoc va lay doi tuong nam hoc
 ////tạo list học kì đã có sẵn
-//        int year=
-//        List<HocKi> hocKis = hocKiRepository.findAllByNamHocYear(new Date().getYear()+1900);
-//        NamHoc namhocReal = namHocRepository.findByYear(new Date().getYear()+1900);
-//        HocKi hockiNew = null;
-//        HocKi hockiNew1 = null;
-//        if (hocKis.size() != 0) {
-//            hockiNew = hocKis.get(0);
-//            hockiNew1 = hocKis.get(1);
-//        }
-//        if (namhocReal == null) {
-//            NamHoc namHocNew = new NamHoc();
-//            namHocNew.setYear(new Date().getYear());
-//            namhocReal = namHocRepository.save(namHocNew);
-//            //Tạo học kìs
-//            HocKi hocKi = new HocKi();
-//            hocKi.setName("học kì 1");
-//            hocKi.setNamHoc(namhocReal);
-//            HocKi hocKi1 = new HocKi();
-//            hocKi1.setName("học kì 2");
-//            hocKi1.setNamHoc(namhocReal);
-//            hockiNew = hocKiRepository.save(hocKi);
-//            hockiNew1 = hocKiRepository.save(hocKi1);
-//        }
+        int yearCurrent=new Date().getYear()+1900;
+        List<HocKi> hocKis = hocKiRepository.findAllByNamHocYear(yearCurrent);
+        NamHoc namhocReal = null;
+        HocKi hockiNew = null;
+        HocKi hockiNew1 = null;
+        if (hocKis.size() != 0) {
+            hockiNew = hocKis.get(0);
+            hockiNew1 = hocKis.get(1);
+        }
+        else {
+            NamHoc namHocNew = new NamHoc();
+            namHocNew.setYear(new Date().getYear());
+            namhocReal = namHocRepository.save(namHocNew);
+            //Tạo học kìs
+            HocKi hocKi = new HocKi();
+            hocKi.setName("học kì 1");
+            hocKi.setNamHoc(namhocReal);
+            HocKi hocKi1 = new HocKi();
+            hocKi1.setName("học kì 2");
+            hocKi1.setNamHoc(namhocReal);
+            hockiNew = hocKiRepository.save(hocKi);
+            hockiNew1 = hocKiRepository.save(hocKi1);
+        }
 //        //nếu có thì lấy học kì của năm học đó không có thì tạo mới
-//        HocKiHocSinh hocKiHocSinh = new HocKiHocSinh();
-//         hocKiHocSinh.setHocSinh(hocsinhreal);
-//        hocKiHocSinh.setHocKi(hockiNew);
-//        //set tung mon cua khoi dó cho diem mon hoc của 2 kì
-//        HocKiHocSinh hocKiHocSinhReal = hocKiHocSinhRepository.save(hocKiHocSinh);
-//        setdiem(hocSinhLop.getLop(), hocKiHocSinhReal);
-//        HocKiHocSinh hocKiHocSinh2 = new HocKiHocSinh();
-//        hocKiHocSinh2.setHocSinh(hocsinhreal);
-//        hocKiHocSinh2.setHocKi(hockiNew1);
-//        HocKiHocSinh hocKiHocSinhReal1 = hocKiHocSinhRepository.save(hocKiHocSinh2);
-//        setdiem(hocSinhLop.getLop(), hocKiHocSinhReal1);
+        HocKiHocSinh hocKiHocSinh = new HocKiHocSinh();
+        hocKiHocSinh.setHocSinh(hocsinhreal);
+        hocKiHocSinh.setHocKi(hockiNew);
+        //set tung mon cua khoi dó cho diem mon hoc của 2 kì
+        HocKiHocSinh hocKiHocSinhReal = hocKiHocSinhRepository.save(hocKiHocSinh);
+        setdiem(hocSinhLop.getLop(), hocKiHocSinhReal);
+//        System.out.println(hocKiHocSinh);
+        HocKiHocSinh hocKiHocSinh2 = new HocKiHocSinh();
+        hocKiHocSinh2.setHocSinh(hocsinhreal);
+        hocKiHocSinh2.setHocKi(hockiNew1);
+//        System.out.println(hocKiHocSinh2);
+        HocKiHocSinh hocKiHocSinhReal1 = hocKiHocSinhRepository.save(hocKiHocSinh2);
+        setdiem(hocSinhLop.getLop(), hocKiHocSinhReal1);
         return hocSinhRespository.save(hocsinhreal);
     }
 
@@ -227,14 +228,7 @@ public class HocSinhServiceImpl implements HocSinhService {
         return true;
     }
 
-    @Override
-    public Boolean updateMarkWhenCreateStudent(String idhs) {
 
-        Optional<HocSinh> hocSinhOptional= hocSinhRespository.findById(idhs);
-
-
-        return null;
-    }
 
     public void setdiem(Lop lop, HocKiHocSinh hocKiHocSinh) {
         switch (lop.getKhoi().getTen()) {
@@ -262,7 +256,7 @@ public class HocSinhServiceImpl implements HocSinhService {
                 }
                 break;
             case "Khối 3":
-                List<MonHoc> monHocs3 = monHocRepository.findAllByKhoiId(3);
+                List<MonHoc> monHocs3 = monHocRepository.findAllByKhoiId(lop.getKhoi().getId());
                 for (MonHoc monHoc : monHocs3) {
                     if (monHoc.getTen().equals("Toán") || monHoc.getTen().equals("Tiếng việt") || monHoc.getTen().equals("Tiếng anh")) {
                         DiemMonHoc diemMonHoc = new DiemMonHoc();
@@ -273,7 +267,7 @@ public class HocSinhServiceImpl implements HocSinhService {
                 }
                 break;
             case "Khối 4":
-                List<MonHoc> monHocs4 = monHocRepository.findAllByKhoiId(4);
+                List<MonHoc> monHocs4 = monHocRepository.findAllByKhoiId(lop.getKhoi().getId());
                 for (MonHoc monHoc : monHocs4) {
                     if (monHoc.getTen().equals("Toán") || monHoc.getTen().equals("Tiếng việt") || monHoc.getTen().equals("Tiếng anh") || monHoc.getTen().equals("Lịch sử và địa lí")) {
                         DiemMonHoc diemMonHoc = new DiemMonHoc();
@@ -284,7 +278,7 @@ public class HocSinhServiceImpl implements HocSinhService {
                 }
                 break;
             case "Khối 5":
-                List<MonHoc> monHocs5 = monHocRepository.findAllByKhoiId(5);
+                List<MonHoc> monHocs5 = monHocRepository.findAllByKhoiId(lop.getKhoi().getId());
                 for (MonHoc monHoc : monHocs5) {
                     if (monHoc.getTen().equals("Toán") || monHoc.getTen().equals("Tiếng việt") || monHoc.getTen().equals("Tiếng anh") || monHoc.getTen().equals("Lịch sử và địa lí")) {
                         DiemMonHoc diemMonHoc = new DiemMonHoc();
