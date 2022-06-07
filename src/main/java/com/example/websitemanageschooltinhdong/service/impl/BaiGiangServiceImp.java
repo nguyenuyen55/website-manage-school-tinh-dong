@@ -19,6 +19,7 @@ public class BaiGiangServiceImp implements BaiGiangService {
     BaiGangRepository baiGiangResposity;
     @Autowired
     ChuongHocRepository chuongHocRepository;
+
     @Override
     public BaiGiang findById(int id) {
 
@@ -29,9 +30,9 @@ public class BaiGiangServiceImp implements BaiGiangService {
     public BaiGiang createBaiGiang(BaiGiangDTO baiGiangDTO) {
         Optional<ChuongHoc> chuongHoc = chuongHocRepository.findById(baiGiangDTO.getIdChuong());
         BaiGiang baiGiang = new BaiGiang();
-        if(chuongHoc.isPresent()){
+        if (chuongHoc.isPresent()) {
             baiGiang.setChuongHoc(chuongHoc.get());
-        }else {
+        } else {
             throw new RecordNotFoundException("chuong hoc khong tim thay ");
         }
         baiGiang.setId(baiGiangDTO.getId());
@@ -45,17 +46,17 @@ public class BaiGiangServiceImp implements BaiGiangService {
     @Override
     public BaiGiang updateBaiGiang(BaiGiangDTO baiGiangDTO) {
         Optional<ChuongHoc> chuongHoc = chuongHocRepository.findById(baiGiangDTO.getIdChuong());
-        BaiGiang baiGiangReal =baiGiangResposity.findById(baiGiangDTO.getId());
+        BaiGiang baiGiangReal = baiGiangResposity.findById(baiGiangDTO.getId());
 
         BaiGiang baiGiang = new BaiGiang();
-        if(baiGiangReal != null){
+        if (baiGiangReal != null) {
             baiGiang.setId(baiGiangDTO.getId());
-        }else {
+        } else {
             throw new RecordNotFoundException("bai giang khong tim thay");
         }
-        if(chuongHoc.isPresent()){
+        if (chuongHoc.isPresent()) {
             baiGiang.setChuongHoc(chuongHoc.get());
-        }else {
+        } else {
             throw new RecordNotFoundException("chuong hoc khong tim thay ");
         }
         baiGiang.setFileTaiLieu(baiGiangDTO.getFileTaiLieu());
@@ -67,12 +68,12 @@ public class BaiGiangServiceImp implements BaiGiangService {
 
     @Override
     public Boolean deleteBaiGiang(int id) {
-        BaiGiang baiGiangReal =baiGiangResposity.findById(id);
-        if(baiGiangReal == null){
+        BaiGiang baiGiangReal = baiGiangResposity.findById(id);
+        if (baiGiangReal == null) {
             throw new RecordNotFoundException("bai giang khong tim thay");
         }
         baiGiangResposity.delete(baiGiangReal);
-        return true ;
+        return true;
     }
 
     @Override
@@ -81,13 +82,16 @@ public class BaiGiangServiceImp implements BaiGiangService {
     }
 
     @Override
-    public List<BaiGiang> getAllByMonHocAndTenChuongHoc(Integer idchuong,String idmon,String name) {
-        if(idchuong==null){
-            return baiGiangResposity.findAllByChuongHoc_MonHoc_IdAndTenContaining(idmon,name);
+    public List<BaiGiang> getAllByMonHocAndTenChuongHoc(Integer idchuong, String idmon, String name) {
+        if (idchuong == null &&idchuong != null && idmon != null ) {
+            return baiGiangResposity.findAllByChuongHoc_MonHoc_IdAndTenContaining(idmon, name);
 
         }
+        if (idchuong == null && idmon == null &&name!=null){
+            return baiGiangResposity.findAllByTenContaining( name);
 
-        return baiGiangResposity.findAllByChuongHoc_IdAndChuongHoc_MonHoc_IdAndTenContaining(idchuong,idmon,name);
+        }
+            return baiGiangResposity.findAllByChuongHoc_IdAndChuongHoc_MonHoc_IdAndTenContaining(idchuong, idmon, name);
     }
 
 }

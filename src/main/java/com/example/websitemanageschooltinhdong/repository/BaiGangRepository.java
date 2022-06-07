@@ -18,4 +18,6 @@ List<BaiGiang> findAllByChuongHoc_IdAndChuongHoc_MonHoc_IdAndTenContaining(int i
         "join chuong_hoc on chuong_hoc.id=bai_giang.chuong_hoc_id\n" +
         "where chuong_hoc.mon_hoc_id = ?1 and bai_giang.ten like %?2%",nativeQuery = true)
 List<BaiGiang> findAllByChuongHoc_MonHoc_IdAndTenContaining(String idmon,String name);
+
+List<BaiGiang> findAllByTenContaining(String name);
 }

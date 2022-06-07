@@ -37,7 +37,7 @@ public class BaiGiangController {
         return new ResponseEntity<>(baiGiangs, HttpStatus.OK);
     }
     @GetMapping("/search")
-    public ResponseEntity<List<BaiGiang>> getALlBaiGiangByMonHocAndTen(@RequestParam("idmon") String idMon,@RequestParam(value = "idchuong",required = false) Integer idchuong, @RequestParam("name") String name) {
+    public ResponseEntity<List<BaiGiang>> getALlBaiGiangByMonHocAndTen(@RequestParam(value = "idmon",required = false) String idMon,@RequestParam(value = "idchuong",required = false) Integer idchuong, @RequestParam("name") String name) {
         List<BaiGiang> baiGiangs = baiGiangService.getAllByMonHocAndTenChuongHoc(idchuong,idMon,name);
         if (baiGiangs.size() == 0) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
