@@ -86,9 +86,9 @@ public class GiaoVienServiceImpl implements GiaoVienService {
         GiaoVien giaovienReal = giaoVienRepository.save(giaoVien);
         //set nguoi nguoi cũng nhu tao nguoi dùng tendn, mk ,quyen,
         NguoiDung nguoiDung = NguoiDung.builder()
-                .tenDangNhap(giaovienReal.getId())
+                .tenDangNhap(giaovienReal.getId().toLowerCase())
                 .matKhau(passwordEncoder.encode("gv123"))
-                .quyen("ROLE_GV")
+                .quyen("ROLE_TEACHER")
                 .build();
         giaovienReal.setNguoiDung(nguoiDung);
 
