@@ -1,8 +1,10 @@
 package com.example.websitemanageschooltinhdong.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Data
@@ -13,6 +15,7 @@ public class TinTuc {
     private String tieuDe;
     @Column(columnDefinition = "TEXT")
     private String noiDung;
-    private String hinhAnh;
+    @OneToMany(mappedBy = "tintuc")
+    private List<Image> images;
 
 }

@@ -1,8 +1,11 @@
 package com.example.websitemanageschooltinhdong.service.impl;
 
+import com.example.websitemanageschooltinhdong.domain.Image;
 import com.example.websitemanageschooltinhdong.domain.TinTuc;
+import com.example.websitemanageschooltinhdong.dto.request.ImageDTO;
 import com.example.websitemanageschooltinhdong.dto.request.TinTucDTO;
 import com.example.websitemanageschooltinhdong.exception.RecordNotFoundException;
+import com.example.websitemanageschooltinhdong.repository.ImageRepository;
 import com.example.websitemanageschooltinhdong.repository.TinTucRepository;
 import com.example.websitemanageschooltinhdong.service.TinTucService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +18,8 @@ import java.util.Optional;
 public class TinTucServiceImpl implements TinTucService {
     @Autowired
     TinTucRepository tinTucRepository;
+    @Autowired
+    ImageRepository imageRepository;
     @Override
     public List<TinTuc> getAllTinTuc() {
         return tinTucRepository.findAll();
@@ -29,8 +34,16 @@ public class TinTucServiceImpl implements TinTucService {
     public TinTuc create(TinTucDTO tinTucDTO) {
         TinTuc tinTuc = new TinTuc();
         tinTuc.setTieuDe(tinTucDTO.getTieuDe());
-        tinTuc.setHinhAnh(tinTucDTO.getHinhAnh());
         tinTuc.setNoiDung(tinTucDTO.getNoiDung());
+        TinTuc tinTucSave= tinTucRepository.save(tinTuc);
+
+        for (ImageDTO imageDTO : tinTucDTO.getImageList()){
+            Image image = new Image();
+            image.setTintuc(tinTucSave);
+            image.setLinkimage(imageDTO.getLink());
+            imageRepository.save(image);
+        }
+
         return tinTucRepository.save(tinTuc);
     }
 
@@ -48,6 +61,10 @@ public class TinTucServiceImpl implements TinTucService {
         Optional<TinTuc> tinTuc =tinTucRepository.findById(id);
         if(!tinTuc.isPresent()){
             throw new RecordNotFoundException("tin tu khong tim thay");
+        }
+        List<Image> images = imageRepository.findAllByTintuc_Id(id);
+        for (Image image : images){
+            imageRepository.delete(image);
         }
         tinTucRepository.delete(tinTuc.get());
         return true ;
