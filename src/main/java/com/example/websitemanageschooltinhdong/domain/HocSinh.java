@@ -32,6 +32,7 @@ public class HocSinh {
     private String tonGiao;
     private String sdtBoMe;
     private String hinhAnh;
+    private String ngaySinh;
     private Boolean isActive;
     @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @JsonIgnore

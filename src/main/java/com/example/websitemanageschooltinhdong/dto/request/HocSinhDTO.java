@@ -15,6 +15,7 @@ public class HocSinhDTO {
     private String tonGiao;
     private String sdtBoMe;
     private String hinhAnh;
+    private String ngaySinh;
     private int idDung;
     private int idLop;
 }

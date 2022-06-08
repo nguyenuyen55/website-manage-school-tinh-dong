@@ -97,6 +97,7 @@ public class HocSinhServiceImpl implements HocSinhService {
                 .tonGiao(hocSinhDTO.getTonGiao())
                 .sdtBoMe(hocSinhDTO.getSdtBoMe())
                 .hinhAnh(hocSinhDTO.getHinhAnh())
+                .ngaySinh(hocSinhDTO.getNgaySinh())
                 .build();
 
         HocSinh hocsinhreal = hocSinhRespository.save(hocSinh);
@@ -188,6 +189,7 @@ public class HocSinhServiceImpl implements HocSinhService {
                 .tonGiao(hocSinhDTO.getTonGiao())
                 .sdtBoMe(hocSinhDTO.getSdtBoMe())
                 .hinhAnh(hocSinhDTO.getHinhAnh())
+                .ngaySinh(hocSinhDTO.getNgaySinh())
                 .nguoiDung(nguoiDung.get())
                 .build();
 
