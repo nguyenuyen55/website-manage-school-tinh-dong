@@ -80,7 +80,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/api/baiGiang/*").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/baiGiang").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/baiGiang/search").permitAll()
-                .antMatchers(HttpMethod.POST, "/api/baiGiang/create").hasRole("TEACHER")//role gv
+                .antMatchers(HttpMethod.POST, "/api/baiGiang/create").permitAll()//role gv
                 .antMatchers(HttpMethod.PUT, "/api/baiGiang/update").hasRole("ADMIN")
                 .antMatchers(HttpMethod.PUT, "/api/baiGiang/update").hasRole("ADMIN")
                 .antMatchers(HttpMethod.PUT, "/api/baiGiang/delete/*").hasRole("ADMIN")
