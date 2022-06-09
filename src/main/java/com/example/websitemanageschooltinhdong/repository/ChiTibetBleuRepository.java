@@ -14,4 +14,6 @@ public interface ChiTibetBleuRepository extends JpaRepository<ChiTietThoiKhoaBie
     List<ChiTietThoiKhoaBieu> findAllByIdLop(@Param("idlop") int idlop);
 
     List<ChiTietThoiKhoaBieu> findAllByThoiKhoaBieuLop_Id(int id);
+    @Query(value = "SELECT lopid FROM giao_vien_lop gvl where gv_id = ?1 and active=1",nativeQuery = true)
+    Integer findLopByIdTeacher(String idgv);
 }

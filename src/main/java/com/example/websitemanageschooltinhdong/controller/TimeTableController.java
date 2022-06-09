@@ -48,6 +48,12 @@ public class TimeTableController {
         return new ResponseEntity<>(chiTietBieuService.createTimeTable(timeTableDTOS,idlop),HttpStatus.OK);
     }
 
-
-
+    @GetMapping("/lop/{idteacher}")
+    public ResponseEntity<Integer> getTimeTables(@PathVariable("idteacher") String idteacher) {
+        Integer idlop= chiTietBieuRespository.findLopByIdTeacher(idteacher);
+        if(idlop == null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(idlop,HttpStatus.OK);
+    }
 }
