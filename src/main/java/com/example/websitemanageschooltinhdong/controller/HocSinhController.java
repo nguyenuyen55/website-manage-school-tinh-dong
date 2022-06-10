@@ -4,10 +4,13 @@ import com.example.websitemanageschooltinhdong.domain.GiaoVien;
 import com.example.websitemanageschooltinhdong.domain.GiaoVienLop;
 import com.example.websitemanageschooltinhdong.domain.HocSinh;
 import com.example.websitemanageschooltinhdong.dto.request.HocSinhDTO;
+import com.example.websitemanageschooltinhdong.dto.request.HocSinhLopDTO;
+import com.example.websitemanageschooltinhdong.dto.response.HocSinhLopDTOReponse;
 import com.example.websitemanageschooltinhdong.exception.ErrorResponse;
 import com.example.websitemanageschooltinhdong.exception.RecordNotFoundException;
 import com.example.websitemanageschooltinhdong.repository.GiaoVienLopRepository;
 import com.example.websitemanageschooltinhdong.repository.GiaoVienRepository;
+import com.example.websitemanageschooltinhdong.repository.HocSinhRespository;
 import com.example.websitemanageschooltinhdong.service.HocSinhService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,6 +27,8 @@ import java.util.*;
 public class HocSinhController {
     @Autowired
     HocSinhService hocSinhService;
+    @Autowired
+    HocSinhRespository hocSinhRespository;
     @Autowired
     GiaoVienLopRepository giaoVienLopRepository;
     @Autowired
@@ -96,6 +101,21 @@ public class HocSinhController {
         return new ResponseEntity<>(hocSinhService.detailById(id), HttpStatus.OK);
     }
 
+    // list hoc sinh boi id lop
+    @GetMapping("/listbyidlop/{idlop}")
+    public ResponseEntity<HocSinhLopDTOReponse> liststudents(@PathVariable("idlop") int id) {
+        if(hocSinhRespository.findAllByHocSinhLopsAdmin(id).size()==0){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        HocSinhLopDTOReponse hocSinhLopDTO= new HocSinhLopDTOReponse();
+        hocSinhLopDTO.setHocSinhs(hocSinhRespository.findAllByHocSinhLopsAdmin(id));
+        if(giaoVienLopRepository.findByLop_IdAndActiveTrue(id)!=null){
+            hocSinhLopDTO.setIdgv(giaoVienLopRepository.findByLop_IdAndActiveTrue(id).getGiaoVien().getId());
+        }else {
+            hocSinhLopDTO.setIdgv(null);
+        }
+        return new ResponseEntity<>(hocSinhLopDTO, HttpStatus.OK);
+    }
     @ExceptionHandler(RecordNotFoundException.class)
     public final ResponseEntity<Object> handleUserNotFoundException(RecordNotFoundException ex) {
         Map<String, String> details = new HashMap<>();

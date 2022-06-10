@@ -17,6 +17,7 @@ public interface HocSinhService {
     List<HocSinh> searchHocSinhAll();
 
     List<HocSinh> findALL();
+    List<HocSinh> findALLByidLop();
 
     //find all hocSinh
     List<HocSinh> findAllIdLop(int id);

@@ -71,8 +71,12 @@ public class HocSinhServiceImpl implements HocSinhService {
     }
 
     @Override
-    public List<HocSinh> findAllIdLop(int id) {
+    public List<HocSinh> findALLByidLop() {
+        return null;
+    }
 
+    @Override
+    public List<HocSinh> findAllIdLop(int id) {
         return hocSinhRespository.findAllByHocSinhLops(id);
     }
 

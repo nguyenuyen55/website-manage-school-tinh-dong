@@ -7,6 +7,7 @@ import com.example.websitemanageschooltinhdong.dto.request.LopDTO;
 import com.example.websitemanageschooltinhdong.dto.response.LopGiaoVienResponse;
 import com.example.websitemanageschooltinhdong.exception.ErrorResponse;
 import com.example.websitemanageschooltinhdong.exception.RecordNotFoundException;
+import com.example.websitemanageschooltinhdong.repository.LopRepository;
 import com.example.websitemanageschooltinhdong.service.LopService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,7 +23,8 @@ import java.util.Map;
 public class LopController {
     @Autowired
     LopService lopService;
-
+    @Autowired
+    LopRepository lopRepository;
     @PostMapping("/create")
     public ResponseEntity<Lop> createLop(@RequestBody LopDTO lopDTO) {
         //xet nam hoc nua
@@ -50,6 +52,14 @@ public class LopController {
     @PostMapping("/updatelop")
     public ResponseEntity<Boolean> updategiaovien(@RequestBody GiaoVienLopDTO giaoVienLopDTO) {
         return new ResponseEntity<>(lopService.updadegvlop(giaoVienLopDTO), HttpStatus.OK);
+    }
+    //xem danh lop bang id nam hoc và id khoi
+    @GetMapping("/listlop")
+    public ResponseEntity<List<Lop>> getLopByNamHocAndKhoi(@RequestParam("idkhoi") int idkhoi,@RequestParam("idnamhoc") int idnamhoc) {
+        if(lopRepository.findAllByKhoi_IdAndNamHoc_Id(idkhoi,idnamhoc).size()==0){
+            return new ResponseEntity<>( HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(lopRepository.findAllByKhoi_IdAndNamHoc_Id(idkhoi,idnamhoc), HttpStatus.OK);
     }
 
 
