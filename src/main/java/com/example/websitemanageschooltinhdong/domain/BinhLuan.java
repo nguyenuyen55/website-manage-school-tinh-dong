@@ -3,9 +3,7 @@ package com.example.websitemanageschooltinhdong.domain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -13,11 +11,13 @@ import java.util.List;
 @Data
 public class BinhLuan {
 @Id
+@GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
-    private String idBaiGiang;
+    private int idBaiGiang;
+    @Column(columnDefinition = "TEXT")
     private String noiDung;
     private LocalDate time;
-    private int idNguoiDung;
+    private String username;
 
     @OneToMany(mappedBy = "binhLuan")
     @JsonIgnore

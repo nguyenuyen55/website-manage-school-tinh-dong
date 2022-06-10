@@ -71,6 +71,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/api/nguoiDung/*").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/student/search/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/student/list/*").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/binhluan/list/*").hasAnyRole("ADMIN","TEACHER","STUDENT")
+                .antMatchers(HttpMethod.POST, "/api/binhluan/create").hasAnyRole("ADMIN","TEACHER","STUDENT")
+                .antMatchers(HttpMethod.DELETE, "/api/binhluan/delete/*").hasAnyRole("ADMIN","TEACHER","STUDENT")
+                .antMatchers(HttpMethod.DELETE, "/api/binhluan/delete/reply/*").hasAnyRole("ADMIN","TEACHER","STUDENT")
+                .antMatchers(HttpMethod.GET, "/api/binhluan/list/reply/*").hasAnyRole("ADMIN","TEACHER","STUDENT")
+                .antMatchers(HttpMethod.POST, "/api/binhluan/reply/create").hasAnyRole("ADMIN","TEACHER","STUDENT")
+
                 .antMatchers(HttpMethod.GET, "/api/teacher/search/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/listNew/*").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/timeTable/**").permitAll()
