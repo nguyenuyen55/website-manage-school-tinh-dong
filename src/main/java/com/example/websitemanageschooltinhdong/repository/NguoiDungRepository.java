@@ -10,8 +10,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 public interface NguoiDungRepository extends JpaRepository<NguoiDung,Integer> {
-//@Query(value = "SELECT * FROM nguoi_dung\n" +
-//        "where nguoi_dung.ten_dang_nhap = ?1",nativeQuery = true)
+
 @Query("select new com.example.websitemanageschooltinhdong.dto.request.NguoiDungDTO(n.id,n.tenDangNhap,n.matKhau,n.quyen) from NguoiDung n where n.tenDangNhap = ?1 ")
 NguoiDungDTO findByTenDangNhapDTO(String ten);
     NguoiDung findByTenDangNhap( String ten);
