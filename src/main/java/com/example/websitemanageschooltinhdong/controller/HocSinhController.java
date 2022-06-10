@@ -34,29 +34,35 @@ public class HocSinhController {
     @Autowired
     GiaoVienRepository giaoVienRepository;
 
+//    @GetMapping("/search")
+//    public ResponseEntity<List<HocSinh>> search(@RequestParam(value = "name", required = false) String name,
+//                                                @RequestParam(value = "idClass", required = false) Integer idClass,
+//                                                @RequestParam(value = "idBlock", required = false) Integer idBlock) {
+//        List<HocSinh> hocSinhs = new ArrayList<>();
+//        if (name == null && idClass == null && idBlock == null) {
+//            hocSinhs = hocSinhService.searchHocSinhAll();
+//        }
+//        if (name != null && idClass == null && idBlock == null) {
+//            hocSinhs = hocSinhService.searchHocSinhByTen(name);
+//        }
+//        if (name != null && idClass == null && idBlock != null) {
+//            hocSinhs = hocSinhService.searchHocSinhByTenKhoi(name, idBlock);
+//        }
+//        if (name != null && idClass != null && idBlock != null) {
+//            hocSinhs = hocSinhService.searchHocSinhByTenKhoiLop(name, idClass, idBlock);
+//        }
+//        if (hocSinhs.size() == 0) {
+//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//        }
+//        return new ResponseEntity<>(hocSinhs, HttpStatus.OK);
+//    }
     @GetMapping("/search")
-    public ResponseEntity<List<HocSinh>> search(@RequestParam(value = "name", required = false) String name,
-                                                @RequestParam(value = "idClass", required = false) Integer idClass,
-                                                @RequestParam(value = "idBlock", required = false) Integer idBlock) {
-        List<HocSinh> hocSinhs = new ArrayList<>();
-        if (name == null && idClass == null && idBlock == null) {
-            hocSinhs = hocSinhService.searchHocSinhAll();
+    public ResponseEntity<List<HocSinh>> search(@RequestParam(value = "id") String id){
+        if(hocSinhRespository.findAllByIdContaining(id).size()==0){
+            throw new RecordNotFoundException("Không tìm thấy học sinh có id này");
         }
-        if (name != null && idClass == null && idBlock == null) {
-            hocSinhs = hocSinhService.searchHocSinhByTen(name);
-        }
-        if (name != null && idClass == null && idBlock != null) {
-            hocSinhs = hocSinhService.searchHocSinhByTenKhoi(name, idBlock);
-        }
-        if (name != null && idClass != null && idBlock != null) {
-            hocSinhs = hocSinhService.searchHocSinhByTenKhoiLop(name, idClass, idBlock);
-        }
-        if (hocSinhs.size() == 0) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<>(hocSinhs, HttpStatus.OK);
+        return new ResponseEntity<>(hocSinhRespository.findAllByIdContaining(id),HttpStatus.OK);
     }
-
     //get List student by id teacher
     @GetMapping("/list/{idTeacher}")
     public ResponseEntity<List<HocSinh>> getListHocSinhByIdTeacher(@PathVariable("idTeacher") String idTeacher) {

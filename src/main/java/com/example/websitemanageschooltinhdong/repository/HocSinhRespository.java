@@ -1,5 +1,6 @@
 package com.example.websitemanageschooltinhdong.repository;
 
+import com.example.websitemanageschooltinhdong.domain.GiaoVien;
 import com.example.websitemanageschooltinhdong.domain.HocSinh;
 import com.example.websitemanageschooltinhdong.dto.response.HocSinhReponse;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -46,4 +47,6 @@ public interface HocSinhRespository extends JpaRepository<HocSinh, String> {
         "join hoc_sinh_lop on hoc_sinh_lop.hoc_sinh_id= hoc_sinh.id\n" +
         "where hoc_sinh_lop.active=true and hoc_sinh_lop.lopid = :idlop ",nativeQuery = true)
 List<HocSinh> findAllByHocSinhLopsAdmin(@Param("idlop") int idlop);
+    @Query(value = "SELECT * FROM hoc_sinh where hoc_sinh.id like %:id%", nativeQuery = true)
+List<HocSinh> findAllByIdContaining(@Param("id") String id);
 }
