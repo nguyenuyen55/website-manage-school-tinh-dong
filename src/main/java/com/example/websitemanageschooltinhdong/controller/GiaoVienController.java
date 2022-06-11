@@ -53,6 +53,7 @@ public class GiaoVienController {
 public ResponseEntity<GiaoVien> createGiaoVien(@RequestBody GiaoVienDTO giaoVienDTO){
         return new ResponseEntity<>(giaoVienService.create(giaoVienDTO),HttpStatus.OK);
 }
+
     //update
     @PutMapping("/update")
     public ResponseEntity<GiaoVien> updateGiaoVien(@RequestBody GiaoVienDTO giaoVienDTO){
@@ -63,7 +64,10 @@ public ResponseEntity<GiaoVien> createGiaoVien(@RequestBody GiaoVienDTO giaoVien
     public ResponseEntity<Boolean> deleteGiaoVien(@PathVariable("id") String id){
         return new ResponseEntity<>(giaoVienService.delete(id),HttpStatus.OK);
     }
-
+    @GetMapping("/list")
+    public ResponseEntity<List<GiaoVien>> findAll(){
+        return new ResponseEntity<>(giaoVienRepository.findAll(),HttpStatus.OK);
+    }
     //detail
     @GetMapping("/detail/{id}")
     public ResponseEntity<GiaoVien> detailGiaoVien(@PathVariable("id") String id){
