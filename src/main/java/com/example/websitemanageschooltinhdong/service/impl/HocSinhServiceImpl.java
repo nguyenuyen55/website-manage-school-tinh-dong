@@ -122,7 +122,7 @@ public class HocSinhServiceImpl implements HocSinhService {
         hocSinhLopRepository.save(hocSinhLop);
 ////check nam hoc va lay doi tuong nam hoc
 ////tạo list học kì đã có sẵn
-        int yearCurrent=new Date().getYear()+1900;
+        int yearCurrent = new Date().getYear() + 1900;
         List<HocKi> hocKis = hocKiRepository.findAllByNamHocYear(yearCurrent);
         NamHoc namhocReal = null;
         HocKi hockiNew = null;
@@ -130,8 +130,7 @@ public class HocSinhServiceImpl implements HocSinhService {
         if (hocKis.size() != 0) {
             hockiNew = hocKis.get(0);
             hockiNew1 = hocKis.get(1);
-        }
-        else {
+        } else {
             NamHoc namHocNew = new NamHoc();
             namHocNew.setYear(new Date().getYear());
             namhocReal = namHocRepository.save(namHocNew);
@@ -216,24 +215,42 @@ public class HocSinhServiceImpl implements HocSinhService {
         if (!hocSinhCheck.isPresent()) {
             throw new RecordNotFoundException("không tìm thấy học sinh này");
         }
+        if (hocSinhCheck.get().getNguoiDung() != null) {
+            Optional<NguoiDung> nguoiDung = nguoiDungRepository.findById(hocSinhCheck.get().getNguoiDung().getId());
+            if (nguoiDung.isPresent()) {
+                hocSinhCheck.get().setNguoiDung(null);
+            }
+            hocSinhRespository.save(hocSinhCheck.get());
 
-
-        Optional<NguoiDung> nguoiDung = nguoiDungRepository.findById(hocSinhCheck.get().getNguoiDung().getId());
-        if (nguoiDung.isPresent()) {
-            hocSinhCheck.get().setNguoiDung(null);
-
+            nguoiDungRepository.delete(nguoiDung.get());
         }
         List<HocSinhLop> hocSinhLops = hocSinhLopRepository.findAllByHocSinh_Id(id);
 
         for (HocSinhLop hocSinhLop : hocSinhLops) {
             hocSinhLopRepository.delete(hocSinhLop);
         }
-        hocSinhRespository.save(hocSinhCheck.get());
-        nguoiDungRepository.delete(nguoiDung.get());
+
+
+        //xoá điểm môn học
+        List<DiemMonHoc> diemMonHocs = diemRepository.findAllByHocKiHocSinh_HocSinhId(hocSinhCheck.get().getId());
+        if (diemMonHocs.size() != 0) {
+            for (DiemMonHoc diemMonHoc : diemMonHocs) {
+                diemRepository.delete(diemMonHoc);
+            }
+        }
+
+        //xoá học kì học sinh
+        List<HocKiHocSinh> hocKiHocSinhs = hocKiHocSinhRepository.findAllByHocSinh_Id(hocSinhCheck.get().getId());
+        if (hocKiHocSinhs.size() != 0) {
+            for (HocKiHocSinh hocKiHocSinh : hocKiHocSinhs) {
+                hocKiHocSinh.setHocSinh(null);
+                hocKiHocSinhRepository.save(hocKiHocSinh);
+                hocKiHocSinhRepository.delete(hocKiHocSinh);
+            }
+        }
         hocSinhRespository.deleteById(id);
         return true;
     }
-
 
 
     public void setdiem(Lop lop, HocKiHocSinh hocKiHocSinh) {

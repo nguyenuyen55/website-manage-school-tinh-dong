@@ -18,6 +18,6 @@ public interface DiemRepository extends JpaRepository<DiemMonHoc,Integer> {
             "where  hkhs.hoc_sinh_id= :hs and nh.id= :nh",nativeQuery = true)
     List<DiemMonHoc> findAllByHocKiHocSinh_HocSinhIdAndHocKiHocSinh_HocKi_NamHoc_Id(@Param("hs") String idhs, @Param("nh") int idNamHoc);
 
-    
+    List<DiemMonHoc> findAllByHocKiHocSinh_Id(int id);
 
 }
