@@ -34,10 +34,10 @@ public class HocSinh {
     private String hinhAnh;
     private String ngaySinh;
     private Boolean isActive;
-    @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.ALL)
     @JsonIgnore
     private NguoiDung nguoiDung;
-    @OneToMany(mappedBy = "hocSinh")
+    @OneToMany(mappedBy = "hocSinh",cascade = CascadeType.MERGE)
     @JsonIgnore
     private List<HocKiHocSinh> hocKiHocSinh;
     //    @ManyToOne(fetch=FetchType.EAGER)
@@ -51,7 +51,7 @@ public class HocSinh {
 //    @OneToMany(mappedBy = "hocSinh")
 //    @JsonIgnore
 //    List<Diem> diems;
-    @OneToMany(mappedBy = "hocSinh")
+    @OneToMany(mappedBy = "hocSinh",cascade = CascadeType.MERGE)
     @JsonIgnore
     List<HocSinhLop> hocSinhLops;
 }

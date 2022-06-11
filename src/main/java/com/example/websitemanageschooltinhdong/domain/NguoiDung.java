@@ -1,5 +1,6 @@
 package com.example.websitemanageschooltinhdong.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
@@ -19,9 +20,9 @@ public class NguoiDung {
     private String matKhau;
     private String quyen;
     @OneToOne(mappedBy = "nguoiDung",cascade = CascadeType.ALL)
-    @JsonIgnore
+    @JsonBackReference
     private GiaoVien giaoVien;
     @OneToOne(mappedBy = "nguoiDung",cascade = CascadeType.ALL)
-    @JsonIgnore
+    @JsonBackReference
     private HocSinh hocSinh;
 }

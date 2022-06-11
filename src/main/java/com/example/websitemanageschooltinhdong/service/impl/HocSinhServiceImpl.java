@@ -173,12 +173,13 @@ public class HocSinhServiceImpl implements HocSinhService {
 //        if (!lop.isPresent()) {
 //            throw new RecordNotFoundException("Not found lớp");
 //        }
-
-        Optional<NguoiDung> nguoiDung = nguoiDungRepository.findById(hocSinhDTO.getIdDung());
-        if (!nguoiDung.isPresent()) {
-            throw new RecordNotFoundException("Not found user");
-        }
-
+        Optional<NguoiDung> nguoiDung=null;
+if(hocSinhCheck.get().getNguoiDung()!=null) {
+    nguoiDung = nguoiDungRepository.findById(hocSinhCheck.get().getNguoiDung().getId());
+    if (!nguoiDung.isPresent()) {
+        throw new RecordNotFoundException("Not found người dùng");
+    }
+}
         //set hoc sinh
         HocSinh hocSinh = HocSinh.builder()
                 .id(hocSinhDTO.getId())
@@ -193,7 +194,6 @@ public class HocSinhServiceImpl implements HocSinhService {
                 .sdtBoMe(hocSinhDTO.getSdtBoMe())
                 .hinhAnh(hocSinhDTO.getHinhAnh())
                 .ngaySinh(hocSinhDTO.getNgaySinh())
-                .nguoiDung(nguoiDung.get())
                 .build();
 
         return hocSinhRespository.save(hocSinh);
