@@ -135,7 +135,13 @@ public class LopServiceImpl implements LopService {
                 giaoVienlopRepository.save(giaoVienLop);
             }
         }
-
+        List<GiaoVienLop> giaoVienLopTesks = giaoVienlopRepository.findAllByLop_IdAndActiveTrue(giaoVienLopDTO.getIdLop());
+        if (giaoVienLopTesks.size() != 0) {
+            for (GiaoVienLop giaoVienLop : giaoVienLopTesks) {
+                giaoVienLop.setActive(false);
+                giaoVienlopRepository.save(giaoVienLop);
+            }
+        }
 
 //        tạo mới một đối tượng giáo viên lóp mới
         GiaoVienLop giaoVienLop = new GiaoVienLop();

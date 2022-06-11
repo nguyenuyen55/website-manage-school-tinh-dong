@@ -8,6 +8,7 @@ import java.util.List;
 public interface GiaoVienLopRepository extends JpaRepository<GiaoVienLop,Integer> {
     GiaoVienLop findByGiaoVien_IdAndActiveTrue(String idgv);
     GiaoVienLop findByLop_IdAndActiveTrue(int idlop);
+    List<GiaoVienLop> findAllByLop_IdAndActiveTrue(int idlop);
     List<GiaoVienLop> findAllByGiaoVien_Id(String id);
 
 }
