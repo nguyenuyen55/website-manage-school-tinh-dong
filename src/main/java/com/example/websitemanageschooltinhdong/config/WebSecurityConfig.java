@@ -81,6 +81,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/api/listNew/*").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/timeTable/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/tb").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/phongbans").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/tb/update").hasRole("ADMIN")
                 .antMatchers(HttpMethod.GET, "/api/tb/create/*").hasRole("ADMIN")
                 .antMatchers(HttpMethod.GET, "/api/baiGiang/*").permitAll()
