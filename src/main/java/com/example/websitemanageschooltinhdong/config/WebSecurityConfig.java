@@ -114,6 +114,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/api/lop/create").hasRole("ADMIN")
                 .antMatchers(HttpMethod.GET, "/api/lop/*").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/lop/listlop").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/lop/listkhoi/*").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/lop/list").hasRole("ADMIN")
                 .antMatchers(HttpMethod.GET, "/api/lop/list/*").hasRole("ADMIN")
                 .antMatchers(HttpMethod.GET, "/api/lop/khoi/*").permitAll()

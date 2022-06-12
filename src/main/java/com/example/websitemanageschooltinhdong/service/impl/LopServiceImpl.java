@@ -116,6 +116,29 @@ public class LopServiceImpl implements LopService {
     }
 
     @Override
+    public List<LopGiaoVienResponse> findAllLopByKhoi(int idkhoi,int year) {
+        List<LopGiaoVienResponse> responseList = new ArrayList<>();
+        List<Lop> lopList = lopRepository.findAllByKhoi_Id(idkhoi);
+
+        for (Lop lop : lopList) {
+            if(lop.getNamHoc().getYear()==year) {
+                LopGiaoVienResponse lopGiaoVienResponse = new LopGiaoVienResponse();
+                lopGiaoVienResponse.setTenLop(lop.getTen());
+
+                GiaoVienLop giaoVienLop = giaoVienlopRepository.findByLop_IdAndActiveTrue(lop.getId());
+                if (giaoVienLop != null) {
+                    lopGiaoVienResponse.setIdgv(giaoVienLop.getGiaoVien().getId());
+                    lopGiaoVienResponse.setCoChuNhiem(giaoVienLop.getGiaoVien().getTen());
+                }
+                lopGiaoVienResponse.setCoChuNhiem("chưa có");
+                lopGiaoVienResponse.setIdLop(lop.getId());
+                lopGiaoVienResponse.setNiemKhoa(lop.getNamHoc().getYear());
+                responseList.add(lopGiaoVienResponse);
+            }}
+        return responseList;
+    }
+
+    @Override
     public Boolean updadegvlop(GiaoVienLopDTO giaoVienLopDTO) {
         Optional<Lop> lopOptional = lopRepository.findById(giaoVienLopDTO.getIdLop());
         if (!lopOptional.isPresent()) {

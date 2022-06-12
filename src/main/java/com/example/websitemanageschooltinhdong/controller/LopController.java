@@ -36,6 +36,14 @@ public class LopController {
     public ResponseEntity<List<LopGiaoVienResponse>> listLop() {
         return new ResponseEntity<>(lopService.findAllLop(), HttpStatus.OK);
     }
+    // lisst tat ca cac lop boi id khoi
+    @GetMapping("/listkhoi")
+    public ResponseEntity<List<LopGiaoVienResponse>> listLop(@RequestParam("idkhoi") int id,@RequestParam("year") int year) {
+        if(lopService.findAllLopByKhoi(id,year).size()==0){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(lopService.findAllLopByKhoi(id,year), HttpStatus.OK);
+    }
 
     //xem danh sach lop boi id
     @GetMapping("/list/{id}")

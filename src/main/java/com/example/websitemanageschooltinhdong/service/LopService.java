@@ -18,6 +18,7 @@ public interface LopService {
     List<Lop> findAll();
     List<Lop> findAllByBlock(int id);
     List<LopGiaoVienResponse> findAllLop();
+    List<LopGiaoVienResponse> findAllLopByKhoi(int idkhoi,int year);
     Boolean updadegvlop(GiaoVienLopDTO giaoVienLopDTO);
     Boolean updateLenLop(String ten , int year,String idgv,int idLop);
 }
