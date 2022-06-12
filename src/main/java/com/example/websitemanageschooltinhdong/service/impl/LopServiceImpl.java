@@ -129,8 +129,8 @@ public class LopServiceImpl implements LopService {
                 if (giaoVienLop != null) {
                     lopGiaoVienResponse.setIdgv(giaoVienLop.getGiaoVien().getId());
                     lopGiaoVienResponse.setCoChuNhiem(giaoVienLop.getGiaoVien().getTen());
-                }
-                lopGiaoVienResponse.setCoChuNhiem("chưa có");
+                }else {
+                lopGiaoVienResponse.setCoChuNhiem("chưa có");}
                 lopGiaoVienResponse.setIdLop(lop.getId());
                 lopGiaoVienResponse.setNiemKhoa(lop.getNamHoc().getYear());
                 responseList.add(lopGiaoVienResponse);
