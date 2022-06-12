@@ -88,7 +88,7 @@ public class BaiGiangServiceImp implements BaiGiangService {
 
         }
         if (idchuong == null && idmon == null &&name!=null){
-            return baiGiangResposity.findAllByTenContaining( name);
+            return baiGiangResposity.findAllByTenContaining(name);
         }
 
         if(idchuong!=null && idmon!=null && name==null){
