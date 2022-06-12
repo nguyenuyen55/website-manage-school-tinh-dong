@@ -121,10 +121,10 @@ public class GiaoVienServiceImpl implements GiaoVienService {
             throw new RecordNotFoundException("không tìm thấy phòng ban");
         }
         //nguoi dung
-        Optional<NguoiDung> nguoiDung = nguoiDungRepository.findById(giaoVienDTO.getIdnguoiDung());
-        if (!nguoiDung.isPresent()) {
-            throw new RecordNotFoundException("không tìm thấyngười dùng này");
-        }
+//        Optional<NguoiDung> nguoiDung = nguoiDungRepository.findById(giaoVienDTO.getIdnguoiDung());
+//        if (!nguoiDung.isPresent()) {
+//            throw new RecordNotFoundException("không tìm thấyngười dùng này");
+//        }
         GiaoVien giaoVien = GiaoVien.builder()
                 .id(giaoVienDTO.getId())
                 .bangCap(bangCap.get())
@@ -137,7 +137,7 @@ public class GiaoVienServiceImpl implements GiaoVienService {
                 .ten(giaoVienDTO.getTen())
                 .soDienThoai(giaoVienDTO.getSoDienThoai())
                 .tenDaiHoc(giaoVienDTO.getTenDaiHoc())
-                .nguoiDung(nguoiDung.get())
+//                .nguoiDung(nguoiDung.get())
                 .build();
         giaoVien.setId(giaoVienDTO.getId());
 
