@@ -11,6 +11,6 @@ public interface ChiTietBieuService {
 
     List<ChiTietThoiKhoaBieu> findAllByIdLop(int idlop);
     List<ChiTietThoiKhoaBieu> updateTimeTable(List<TimeTableDTO> chiTietThoiKhoaBieus);
-    List<ChiTietThoiKhoaBieu> createTimeTable(List<TimeTableDTO> chiTietThoiKhoaBieus,int idlop);
+    boolean createTimeTable(List<TimeTableDTO> chiTietThoiKhoaBieus,int idlop);
 
 }

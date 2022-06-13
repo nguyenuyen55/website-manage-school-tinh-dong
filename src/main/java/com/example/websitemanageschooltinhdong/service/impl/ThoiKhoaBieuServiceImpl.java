@@ -64,7 +64,7 @@ public class ThoiKhoaBieuServiceImpl implements ChiTietBieuService {
     }
 
     @Override
-    public List<ChiTietThoiKhoaBieu> createTimeTable(List<TimeTableDTO> timeTableDTOS, int idlop) {
+    public boolean createTimeTable(List<TimeTableDTO> timeTableDTOS, int idlop) {
         //check lop
         Optional<Lop> lop = lopRepository.findById(idlop);
         if (!lop.isPresent()) {
@@ -91,6 +91,6 @@ public class ThoiKhoaBieuServiceImpl implements ChiTietBieuService {
                     .build();
             chiTietThoiKhoaBieus.add(chiTietBieuRespository.save(chiTietThoiKhoaBieu));
         }
-        return chiTietThoiKhoaBieus;
+        return true;
     }
 }

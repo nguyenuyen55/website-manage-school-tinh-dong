@@ -44,7 +44,7 @@ public class TimeTableController {
         return new ResponseEntity<>(chiTietBieuService.updateTimeTable(timeTableDTOS),HttpStatus.OK);
     }
     @PutMapping("/tb/create/{idlop}")
-    public ResponseEntity<List<ChiTietThoiKhoaBieu>> createTimeTable(@RequestBody List<TimeTableDTO> timeTableDTOS,@PathVariable("idlop")int idlop){
+    public ResponseEntity<Boolean> createTimeTable(@RequestBody List<TimeTableDTO> timeTableDTOS,@PathVariable("idlop")int idlop){
         return new ResponseEntity<>(chiTietBieuService.createTimeTable(timeTableDTOS,idlop),HttpStatus.OK);
     }
 
