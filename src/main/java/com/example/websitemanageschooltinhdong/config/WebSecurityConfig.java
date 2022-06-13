@@ -63,6 +63,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/api/khoi").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/chuonghoc/*").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/monhoc/*").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/monhoc/detail/*").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/cauhoi/create").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/listNew/create").hasRole("ADMIN")
                 .antMatchers(HttpMethod.GET, "/api/cauhoi/list").hasRole("ADMIN")

@@ -22,4 +22,9 @@ public class MonHocController {
     public ResponseEntity<List<MonHoc>> getAllByIdKhoi(@PathVariable("khoi") int idKhoi) {
         return new ResponseEntity<>(monHocRepository.findAllByKhoiId(idKhoi), HttpStatus.OK);
     }
+
+    @GetMapping("/detail/{idmon}")
+    public ResponseEntity<MonHoc> getAllByIdKhoi(@PathVariable("idmon") String idmon) {
+        return new ResponseEntity<>(monHocRepository.findById(idmon).get(), HttpStatus.OK);
+    }
 }
