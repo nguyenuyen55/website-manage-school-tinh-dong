@@ -69,6 +69,13 @@ public class LopController {
         }
         return new ResponseEntity<>(lopRepository.findAllByKhoi_IdAndNamHoc_Id(idkhoi,idnamhoc), HttpStatus.OK);
     }
+    @GetMapping("/listlop/thoikhoabieu")
+    public ResponseEntity<List<Lop>> getLopByNamHocAndKhoiForThoiKhoaBieu(@RequestParam("idkhoi") int idkhoi,@RequestParam("idnamhoc") int idnamhoc) {
+        if(lopRepository.findAllByKhoi_IdAndNamHoc_IdForThoiKhoaBieu(idkhoi,idnamhoc).size()==0){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(lopRepository.findAllByKhoi_IdAndNamHoc_IdForThoiKhoaBieu(idkhoi,idnamhoc), HttpStatus.OK);
+    }
 
 
     //len lop
