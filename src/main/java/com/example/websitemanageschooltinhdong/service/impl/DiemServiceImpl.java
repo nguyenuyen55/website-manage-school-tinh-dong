@@ -29,7 +29,8 @@ public class DiemServiceImpl implements DiemService {
 
     @Override
     public List<DiemMonHoc> getDiemByHocSinhAndNamHoc(String idhs, int idNamHoc) {
-        return diemRepository.findAllByHocKiHocSinh_HocSinhIdAndHocKiHocSinh_HocKi_NamHoc_Id(idhs, idNamHoc);
+
+        return diemRepository.findAllByHocKiHocSinhandNamHoc_Id(idhs, idNamHoc);
     }
 
     @Override

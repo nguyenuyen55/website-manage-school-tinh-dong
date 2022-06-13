@@ -36,6 +36,9 @@ public class DiemController {
 
     @GetMapping
     public ResponseEntity<List<DiemMonHoc>> getDiemHocSinhByIdAndNamHoc(@RequestParam("namhoc") int idNamhoc, @RequestParam("hocsinh") String id) {
+     if(diemService.getDiemByHocSinhAndNamHoc(id, idNamhoc).size()==0){
+         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+     }
         return new ResponseEntity<>(diemService.getDiemByHocSinhAndNamHoc(id, idNamhoc), HttpStatus.OK);
     }
 
