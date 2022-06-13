@@ -2,7 +2,6 @@ package com.example.websitemanageschooltinhdong.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -27,10 +26,10 @@ public class MonHoc {
     @JsonIgnore
     private Khoi khoi;
     @OneToMany(mappedBy = "monHoc")
-    @JsonManagedReference
+    @JsonBackReference
     List<ChuongHoc> chuongHocs;
     @OneToMany(mappedBy = "monHoc")
-    @JsonManagedReference
+    @JsonIgnore
     List<ChiTietThoiKhoaBieu> chiTietThoiKhoaBieu;
     @OneToMany(mappedBy = "monHoc")
     @JsonIgnore
