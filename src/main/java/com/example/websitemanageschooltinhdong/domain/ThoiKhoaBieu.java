@@ -1,5 +1,6 @@
 package com.example.websitemanageschooltinhdong.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
@@ -13,8 +14,10 @@ public class ThoiKhoaBieu {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     @OneToOne(cascade = CascadeType.ALL)
+    @JsonBackReference
     private Lop lop;
     @OneToMany(mappedBy = "thoiKhoaBieu")
+    @JsonBackReference
     List<ChiTietThoiKhoaBieu> chiTietThoiKhoaBieus;
 
 

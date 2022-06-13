@@ -25,6 +25,5 @@ public class ChiTietThoiKhoaBieu {
     @ManyToOne
     MonHoc monHoc;
     @ManyToOne
-    @JsonIgnore
     ThoiKhoaBieu thoiKhoaBieu;
 }
