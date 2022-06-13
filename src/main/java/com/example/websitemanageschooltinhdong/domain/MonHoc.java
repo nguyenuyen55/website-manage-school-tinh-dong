@@ -2,7 +2,6 @@ package com.example.websitemanageschooltinhdong.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -21,15 +20,16 @@ public class MonHoc {
 //        @JsonIgnore
 //    List<BaiGiang> baiGiangs;
     @ManyToOne
-   @JsonManagedReference
+    @JsonIgnore
     private Khoi khoi;
     @OneToMany(mappedBy = "monHoc")
-    @JsonManagedReference
+    @JsonBackReference
     List<ChuongHoc> chuongHocs;
-    @OneToMany(mappedBy = "monHoc") @JsonManagedReference
+    @OneToMany(mappedBy = "monHoc")
+    @JsonIgnore
     List<ChiTietThoiKhoaBieu> chiTietThoiKhoaBieu;
     @OneToMany(mappedBy = "monHoc")
-    @JsonManagedReference
+    @JsonIgnore
     List<DiemMonHoc> diemMonHocs;
 
 }

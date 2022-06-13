@@ -19,6 +19,5 @@ public class ChuongHoc {
     @JsonIgnore
     List<BaiGiang> baiGiangs;
     @ManyToOne
-    @JsonIgnore
     private MonHoc monHoc;
 }
