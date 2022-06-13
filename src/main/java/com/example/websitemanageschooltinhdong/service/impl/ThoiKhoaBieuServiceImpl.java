@@ -70,6 +70,10 @@ public class ThoiKhoaBieuServiceImpl implements ChiTietBieuService {
         if (!lop.isPresent()) {
             throw new RecordNotFoundException("lớp này không tồn tại");
         }
+        lop.get().setThoiKhoaBieu(null);
+        lop.get().setHocSinhLops(null);
+        lop.get().setKhoi(null);
+        lop.get().setNamHoc(null);
         //tạo thơi khoa bieu cho lop dó
         ThoiKhoaBieu thoiKhoaBieu = new ThoiKhoaBieu();
         thoiKhoaBieu.setLop(lop.get());
@@ -82,6 +86,10 @@ public class ThoiKhoaBieuServiceImpl implements ChiTietBieuService {
             if (!monHoc.isPresent()) {
                 throw new RecordNotFoundException("Không tìm thấy môn học này");
             }
+            monHoc.get().setDiemMonHocs(null);
+            monHoc.get().setChiTietThoiKhoaBieu(null);
+            monHoc.get().setKhoi(null);
+            monHoc.get().setChuongHocs(null);
             // set các thuộc tính vào chi tiết thời khoá biểu xong lưu nó lại
             ChiTietThoiKhoaBieu chiTietThoiKhoaBieu = ChiTietThoiKhoaBieu.builder()
                     .thoiKhoaBieu(thoiKhoaBieureal)

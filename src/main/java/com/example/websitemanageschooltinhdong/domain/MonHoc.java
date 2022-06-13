@@ -29,10 +29,9 @@ public class MonHoc {
     @JsonBackReference
     List<ChuongHoc> chuongHocs;
     @OneToMany(mappedBy = "monHoc")
-    @JsonIgnore
+    @JsonBackReference
     List<ChiTietThoiKhoaBieu> chiTietThoiKhoaBieu;
     @OneToMany(mappedBy = "monHoc")
-    @JsonIgnore
+    @JsonBackReference
     List<DiemMonHoc> diemMonHocs;
-
 }

@@ -11,7 +11,7 @@ import java.util.List;
 @Data
 public class ThoiKhoaBieu {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @OneToOne(cascade = CascadeType.ALL)
     @JsonBackReference
