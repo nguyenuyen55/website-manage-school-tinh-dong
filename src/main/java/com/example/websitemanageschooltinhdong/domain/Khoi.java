@@ -1,7 +1,6 @@
 package com.example.websitemanageschooltinhdong.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -20,11 +19,9 @@ public class Khoi {
     private String ten;
     @OneToMany(mappedBy = "khoi")
     @JsonIgnore
-    @JsonManagedReference
     List<Lop> lops;
     @OneToMany(mappedBy = "khoi")
     @JsonIgnore
-    @JsonManagedReference
     List<MonHoc> monHocs;
 
 
