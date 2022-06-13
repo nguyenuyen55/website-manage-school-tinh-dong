@@ -1,5 +1,6 @@
 package com.example.websitemanageschooltinhdong.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
@@ -19,5 +20,6 @@ public class ChuongHoc {
     @JsonIgnore
     List<BaiGiang> baiGiangs;
     @ManyToOne
+    @JsonBackReference
     private MonHoc monHoc;
 }
