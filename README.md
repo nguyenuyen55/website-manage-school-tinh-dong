@@ -40,7 +40,7 @@
 https://study-website-sand.vercel.app/
 ```
 
-**Công nghệ trong dự án: **
+**Công nghệ trong dự án:**
 
 - Java Spring boot (Back-end)
 
