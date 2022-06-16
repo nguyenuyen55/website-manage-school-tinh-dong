@@ -1,9 +1,9 @@
 # website-manage-school-tinh-dong
-#Phần giới thiệu :
+### Phần giới thiệu :
 
 Đây là 1 website quản lý trường tiểu học , áp dụng công nghệ thông tin nhằm hạn chế các qui trình thủ công và tiết kiệm thòi gian cho người dùng
 
-#Cách chức năng chính
+## Các chức năng chính
 
 **Người dùng**
 
