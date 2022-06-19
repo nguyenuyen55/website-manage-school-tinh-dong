@@ -44,7 +44,7 @@ public class TinTucController {
     }
     //update
     @PutMapping("/update")
-    public ResponseEntity<TinTuc> update(@RequestBody TinTuc tinTuc) {
+    public ResponseEntity<TinTuc> update(@RequestBody TinTucDTO tinTuc) {
         return new ResponseEntity<>(tinTucService.update(tinTuc), HttpStatus.OK);
     }
     //update

@@ -219,10 +219,12 @@ if(hocSinhCheck.get().getNguoiDung()!=null) {
             Optional<NguoiDung> nguoiDung = nguoiDungRepository.findById(hocSinhCheck.get().getNguoiDung().getId());
             if (nguoiDung.isPresent()) {
                 hocSinhCheck.get().setNguoiDung(null);
+                hocSinhRespository.save(hocSinhCheck.get());
             }
             hocSinhRespository.save(hocSinhCheck.get());
-
-            nguoiDungRepository.delete(nguoiDung.get());
+            nguoiDung.get().setTenDangNhap("");
+            nguoiDungRepository.save(nguoiDung.get());
+//            nguoiDungRepository.delete(nguoiDung.get());
         }
         List<HocSinhLop> hocSinhLops = hocSinhLopRepository.findAllByHocSinh_Id(id);
 

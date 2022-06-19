@@ -3,6 +3,7 @@ package com.example.websitemanageschooltinhdong.service.impl;
 import com.example.websitemanageschooltinhdong.domain.*;
 import com.example.websitemanageschooltinhdong.dto.request.GiaoVienLopDTO;
 import com.example.websitemanageschooltinhdong.dto.request.LopDTO;
+import com.example.websitemanageschooltinhdong.dto.request.TimeTableDTO;
 import com.example.websitemanageschooltinhdong.dto.response.HocSinhReponse;
 import com.example.websitemanageschooltinhdong.dto.response.LopGiaoVienResponse;
 import com.example.websitemanageschooltinhdong.exception.RecordNotFoundException;
@@ -40,6 +41,10 @@ public class LopServiceImpl implements LopService {
     GiaoVienLopRepository giaoVienlopRepository;
     @Autowired
     HocSinhLopRepository hocSinhLopRepository;
+    @Autowired
+    ChiTibetBleuRepository chiTietBieuRespository;
+    @Autowired
+    ThoiKhoaBieuRepository thoiKhoaBieuRepository;
 
     @Override
     public Lop create(LopDTO lopDTO) {
@@ -56,6 +61,7 @@ public class LopServiceImpl implements LopService {
                 .khoi(khoiOptional.get())
                 .namHoc(namHocOptional)
                 .build();
+
         return lopRepository.save(lop);
     }
 
@@ -116,25 +122,26 @@ public class LopServiceImpl implements LopService {
     }
 
     @Override
-    public List<LopGiaoVienResponse> findAllLopByKhoi(int idkhoi,int year) {
+    public List<LopGiaoVienResponse> findAllLopByKhoi(int idkhoi, int year) {
         List<LopGiaoVienResponse> responseList = new ArrayList<>();
         List<Lop> lopList = lopRepository.findAllByKhoi_Id(idkhoi);
 
         for (Lop lop : lopList) {
-            if(lop.getNamHoc().getYear()==year) {
+            if (lop.getNamHoc().getYear() == year) {
                 LopGiaoVienResponse lopGiaoVienResponse = new LopGiaoVienResponse();
                 lopGiaoVienResponse.setTenLop(lop.getTen());
-
                 GiaoVienLop giaoVienLop = giaoVienlopRepository.findByLop_IdAndActiveTrue(lop.getId());
                 if (giaoVienLop != null) {
                     lopGiaoVienResponse.setIdgv(giaoVienLop.getGiaoVien().getId());
                     lopGiaoVienResponse.setCoChuNhiem(giaoVienLop.getGiaoVien().getTen());
-                }else {
-                lopGiaoVienResponse.setCoChuNhiem("chưa có");}
+                } else {
+                    lopGiaoVienResponse.setCoChuNhiem("chưa có");
+                }
                 lopGiaoVienResponse.setIdLop(lop.getId());
                 lopGiaoVienResponse.setNiemKhoa(lop.getNamHoc().getYear());
                 responseList.add(lopGiaoVienResponse);
-            }}
+            }
+        }
         return responseList;
     }
 
@@ -178,6 +185,13 @@ public class LopServiceImpl implements LopService {
     @Override
     @Transactional
     public Boolean updateLenLop(String ten, int year, String idgv, int idlop) {
+
+        Lop lopcheck = lopRepository.findByNamHocYearAndTen(year, ten);
+        if (lopcheck != null) {
+            throw new RecordNotFoundException("LỚp này đã tồn tại");
+        }
+
+
 //        List<HocSinhReponse> hocSinhFakes = hocSinhRespository.findByLop_idTest(idlop);
 //        //tạo 1 lớp lớn hơn với 1 năm lớp hơn
 //        System.out.println(hocSinhFakes);

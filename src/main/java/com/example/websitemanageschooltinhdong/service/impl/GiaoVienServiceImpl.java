@@ -153,12 +153,15 @@ public class GiaoVienServiceImpl implements GiaoVienService {
         }
         giaoVienOptional.get().setBangCap(null);
         giaoVienOptional.get().setPhongBan(null);
+        if (giaoVienOptional.get().getNguoiDung() != null) {
 
-        Optional<NguoiDung> nguoiDung = nguoiDungRepository.findById(giaoVienOptional.get().getNguoiDung().getId());
-        if (!nguoiDung.isPresent()) {
-            throw new RecordNotFoundException("không tìm thấy người dùng của gv");
-        } else {
-            giaoVienOptional.get().setNguoiDung(null);
+            Optional<NguoiDung> nguoiDung = nguoiDungRepository.findById(giaoVienOptional.get().getNguoiDung().getId());
+            if (!nguoiDung.isPresent()) {
+                throw new RecordNotFoundException("không tìm thấy người dùng của gv");
+            } else {
+                giaoVienOptional.get().setNguoiDung(null);
+            }
+            nguoiDungRepository.delete(nguoiDung.get());
         }
         List<GiaoVienLop> giaoVienLops = giaoVienLopRepository.findAllByGiaoVien_Id(id);
 
@@ -166,7 +169,7 @@ public class GiaoVienServiceImpl implements GiaoVienService {
             giaoVienLopRepository.delete(hocSinhLop);
         }
         giaoVienRepository.save(giaoVienOptional.get());
-        nguoiDungRepository.delete(nguoiDung.get());
+
         giaoVienRepository.delete(giaoVienOptional.get());
         return true;
     }

@@ -11,6 +11,6 @@ public interface TinTucService {
     List<TinTuc> getAllTinTuc();
     TinTuc getTinTucById(int id);
     TinTuc create (TinTucDTO tintuc);
-    TinTuc update (TinTuc tintuc);
+    TinTuc update (TinTucDTO tintuc);
     Boolean delete (int  id);
 }

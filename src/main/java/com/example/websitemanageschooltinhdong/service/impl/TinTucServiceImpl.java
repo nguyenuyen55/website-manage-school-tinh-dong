@@ -11,6 +11,7 @@ import com.example.websitemanageschooltinhdong.service.TinTucService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,8 +21,11 @@ public class TinTucServiceImpl implements TinTucService {
     TinTucRepository tinTucRepository;
     @Autowired
     ImageRepository imageRepository;
+
     @Override
     public List<TinTuc> getAllTinTuc() {
+
+
         return tinTucRepository.findAll();
     }
 
@@ -35,9 +39,9 @@ public class TinTucServiceImpl implements TinTucService {
         TinTuc tinTuc = new TinTuc();
         tinTuc.setTieuDe(tinTucDTO.getTieuDe());
         tinTuc.setNoiDung(tinTucDTO.getNoiDung());
-        TinTuc tinTucSave= tinTucRepository.save(tinTuc);
+        TinTuc tinTucSave = tinTucRepository.save(tinTuc);
 
-        for (ImageDTO imageDTO : tinTucDTO.getImageList()){
+        for (ImageDTO imageDTO : tinTucDTO.getImageList()) {
             Image image = new Image();
             image.setTintuc(tinTucSave);
             image.setLinkimage(imageDTO.getLink());
@@ -48,25 +52,36 @@ public class TinTucServiceImpl implements TinTucService {
     }
 
     @Override
-    public TinTuc update(TinTuc tintuc) {
-        Optional<TinTuc> tinTuc =tinTucRepository.findById(tintuc.getId());
-        if(!tinTuc.isPresent()){
-            throw new RecordNotFoundException("tin tu khong tim thay");
+    public TinTuc update(TinTucDTO tinTucDTO) {
+        TinTuc tinTucRel = new TinTuc();
+        tinTucRel.setId(tinTucDTO.getId());
+        tinTucRel.setTieuDe(tinTucDTO.getTieuDe());
+        tinTucRel.setNoiDung(tinTucDTO.getNoiDung());
+
+        List<Image> images = imageRepository.findAllByTintuc_Id(tinTucDTO.getId());
+        for (Image image : images) {
+            imageRepository.delete(image);
         }
-        return tinTucRepository.save(tintuc);
+        for (ImageDTO imageDTO : tinTucDTO.getImageList()) {
+            Image image = new Image();
+            image.setTintuc(tinTucRepository.save(tinTucRel));
+            image.setLinkimage(imageDTO.getLink());
+            imageRepository.save(image);
+        }
+        return tinTucRepository.save(tinTucRel);
     }
 
     @Override
     public Boolean delete(int id) {
-        Optional<TinTuc> tinTuc =tinTucRepository.findById(id);
-        if(!tinTuc.isPresent()){
+        Optional<TinTuc> tinTuc = tinTucRepository.findById(id);
+        if (!tinTuc.isPresent()) {
             throw new RecordNotFoundException("tin tu khong tim thay");
         }
         List<Image> images = imageRepository.findAllByTintuc_Id(id);
-        for (Image image : images){
+        for (Image image : images) {
             imageRepository.delete(image);
         }
         tinTucRepository.delete(tinTuc.get());
-        return true ;
+        return true;
     }
 }

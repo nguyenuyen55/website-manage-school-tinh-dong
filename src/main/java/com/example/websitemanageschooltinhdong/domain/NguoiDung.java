@@ -15,14 +15,14 @@ import javax.persistence.*;
 public class NguoiDung {
 @Id
 @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    private Integer id;
     private String tenDangNhap;
     private String matKhau;
     private String quyen;
     @OneToOne(mappedBy = "nguoiDung",cascade = CascadeType.ALL)
     @JsonBackReference
     private GiaoVien giaoVien;
-    @OneToOne(mappedBy = "nguoiDung",cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "nguoiDung",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @JsonBackReference
     private HocSinh hocSinh;
 }

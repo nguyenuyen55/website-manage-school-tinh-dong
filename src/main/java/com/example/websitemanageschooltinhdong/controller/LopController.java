@@ -25,6 +25,7 @@ public class LopController {
     LopService lopService;
     @Autowired
     LopRepository lopRepository;
+
     @PostMapping("/create")
     public ResponseEntity<Lop> createLop(@RequestBody LopDTO lopDTO) {
         //xet nam hoc nua
@@ -36,13 +37,14 @@ public class LopController {
     public ResponseEntity<List<LopGiaoVienResponse>> listLop() {
         return new ResponseEntity<>(lopService.findAllLop(), HttpStatus.OK);
     }
+
     // lisst tat ca cac lop boi id khoi
     @GetMapping("/listkhoi")
-    public ResponseEntity<List<LopGiaoVienResponse>> listLop(@RequestParam("idkhoi") int id,@RequestParam("year") int year) {
-        if(lopService.findAllLopByKhoi(id,year).size()==0){
+    public ResponseEntity<List<LopGiaoVienResponse>> listLop(@RequestParam("idkhoi") int id, @RequestParam("year") int year) {
+        if (lopService.findAllLopByKhoi(id, year).size() == 0) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>(lopService.findAllLopByKhoi(id,year), HttpStatus.OK);
+        return new ResponseEntity<>(lopService.findAllLopByKhoi(id, year), HttpStatus.OK);
     }
 
     //xem danh sach lop boi id
@@ -50,6 +52,7 @@ public class LopController {
     public ResponseEntity<Lop> getLop(@PathVariable("id") int id) {
         return new ResponseEntity<>(lopService.detail(id), HttpStatus.OK);
     }
+
     //xem danh sach lop boi id
     @GetMapping("/khoi/{idkhoi}")
     public ResponseEntity<List<Lop>> getLopByIdKhoi(@PathVariable("idkhoi") int id) {
@@ -61,20 +64,22 @@ public class LopController {
     public ResponseEntity<Boolean> updategiaovien(@RequestBody GiaoVienLopDTO giaoVienLopDTO) {
         return new ResponseEntity<>(lopService.updadegvlop(giaoVienLopDTO), HttpStatus.OK);
     }
+
     //xem danh lop bang id nam hoc và id khoi
     @GetMapping("/listlop")
-    public ResponseEntity<List<Lop>> getLopByNamHocAndKhoi(@RequestParam("idkhoi") int idkhoi,@RequestParam("idnamhoc") int idnamhoc) {
-        if(lopRepository.findAllByKhoi_IdAndNamHoc_Id(idkhoi,idnamhoc).size()==0){
-            return new ResponseEntity<>( HttpStatus.NOT_FOUND);
+    public ResponseEntity<List<Lop>> getLopByNamHocAndKhoi(@RequestParam("idkhoi") int idkhoi, @RequestParam("idnamhoc") int idnamhoc) {
+        if (lopRepository.findAllByKhoi_IdAndNamHoc_Id(idkhoi, idnamhoc).size() == 0) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<>(lopRepository.findAllByKhoi_IdAndNamHoc_Id(idkhoi,idnamhoc), HttpStatus.OK);
+        return new ResponseEntity<>(lopRepository.findAllByKhoi_IdAndNamHoc_Id(idkhoi, idnamhoc), HttpStatus.OK);
     }
+
     @GetMapping("/listlop/thoikhoabieu")
-    public ResponseEntity<List<Lop>> getLopByNamHocAndKhoiForThoiKhoaBieu(@RequestParam("idkhoi") int idkhoi,@RequestParam("idnamhoc") int idnamhoc) {
-        if(lopRepository.findAllByKhoi_IdAndNamHoc_IdForThoiKhoaBieu(idkhoi,idnamhoc).size()==0){
+    public ResponseEntity<List<Lop>> getLopByNamHocAndKhoiForThoiKhoaBieu(@RequestParam("idkhoi") int idkhoi, @RequestParam("idnamhoc") int idnamhoc) {
+        if (lopRepository.findAllByKhoi_IdAndNamHoc_IdForThoiKhoaBieu(idkhoi, idnamhoc).size() == 0) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>(lopRepository.findAllByKhoi_IdAndNamHoc_IdForThoiKhoaBieu(idkhoi,idnamhoc), HttpStatus.OK);
+        return new ResponseEntity<>(lopRepository.findAllByKhoi_IdAndNamHoc_IdForThoiKhoaBieu(idkhoi, idnamhoc), HttpStatus.OK);
     }
 
 
@@ -84,9 +89,9 @@ public class LopController {
 
     @PostMapping("/updateLopHocSinh")
     public ResponseEntity<Boolean> updatehocsinhinlop(@RequestBody HocSinhLopDTO hocSinhLop) {
-        return new ResponseEntity<>(lopService.updateLenLop(hocSinhLop.getTen(), hocSinhLop.getYear(), hocSinhLop.getIdgv(), hocSinhLop.getIdlop()), HttpStatus.OK
-        );
+        return new ResponseEntity<>(lopService.updateLenLop(hocSinhLop.getTen(), hocSinhLop.getYear(), hocSinhLop.getIdgv(), hocSinhLop.getIdlop()), HttpStatus.OK);
     }
+
     @ExceptionHandler(RecordNotFoundException.class)
     public final ResponseEntity<Object> handleUserNotFoundException(RecordNotFoundException ex) {
         Map<String, String> details = new HashMap<>();
