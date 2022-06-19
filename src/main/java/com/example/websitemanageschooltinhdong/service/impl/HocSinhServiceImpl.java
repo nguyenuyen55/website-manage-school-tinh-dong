@@ -2,6 +2,7 @@ package com.example.websitemanageschooltinhdong.service.impl;
 
 import com.example.websitemanageschooltinhdong.domain.*;
 import com.example.websitemanageschooltinhdong.dto.request.HocSinhDTO;
+import com.example.websitemanageschooltinhdong.dto.request.HocSinhSearchDTO;
 import com.example.websitemanageschooltinhdong.exception.RecordNotFoundException;
 import com.example.websitemanageschooltinhdong.repository.*;
 import com.example.websitemanageschooltinhdong.service.HocSinhService;
@@ -9,10 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class HocSinhServiceImpl implements HocSinhService {
@@ -41,25 +39,8 @@ public class HocSinhServiceImpl implements HocSinhService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    @Override
-    public List<HocSinh> searchHocSinhByTen(String ten) {
-        return hocSinhRespository.findAllByTenContaining(ten);
-    }
 
-    @Override
-    public List<HocSinh> searchHocSinhByTenKhoi(String ten, int khoi) {
-        return hocSinhRespository.findAllByTenContainingAndLop_Khoi_Id(ten, khoi);
-    }
 
-    @Override
-    public List<HocSinh> searchHocSinhByTenKhoiLop(String ten, int lop, int khoi) {
-        return hocSinhRespository.findAllByTenContainingAndLop_IdAndLop_Khoi_Id(ten, lop, khoi);
-    }
-
-    @Override
-    public List<HocSinh> searchHocSinhAll() {
-        return hocSinhRespository.findAll();
-    }
 
     @Override
     public List<HocSinh> findALL() {
@@ -71,9 +52,25 @@ public class HocSinhServiceImpl implements HocSinhService {
     }
 
     @Override
-    public List<HocSinh> findALLByidLop() {
-        return null;
+    public List<HocSinhSearchDTO> findALLSearch(String name) {
+        List<HocSinh> hocSinhList = hocSinhRespository.findAllByTenContaining(name);
+        List<HocSinhSearchDTO> hocSinhSearchDTOS= new ArrayList<>();
+      for(HocSinh hocSinh :hocSinhList){
+          HocSinhLop  hocSinhLop = hocSinhLopRepository.findByHocSinh_IdAndActiveTrue(hocSinh.getId());
+
+          HocSinhSearchDTO hocSinhSearchDTO = HocSinhSearchDTO.builder()
+                  .ten(hocSinh.getTen())
+                  .diaChi(hocSinh.getDiaChi())
+                  .ngaysinh(hocSinh.getNgaySinh())
+                  .khoa(hocSinhLop.getLop().getNamHoc().getYear())
+                  .tenlop(hocSinhLop.getLop().getTen())
+                  .build();
+          hocSinhSearchDTOS.add(hocSinhSearchDTO);
+      }
+
+        return hocSinhSearchDTOS;
     }
+
 
     @Override
     public List<HocSinh> findAllIdLop(int id) {

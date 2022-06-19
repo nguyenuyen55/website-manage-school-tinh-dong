@@ -5,6 +5,7 @@ import com.example.websitemanageschooltinhdong.domain.GiaoVienLop;
 import com.example.websitemanageschooltinhdong.domain.HocSinh;
 import com.example.websitemanageschooltinhdong.dto.request.HocSinhDTO;
 import com.example.websitemanageschooltinhdong.dto.request.HocSinhLopDTO;
+import com.example.websitemanageschooltinhdong.dto.request.HocSinhSearchDTO;
 import com.example.websitemanageschooltinhdong.dto.response.HocSinhLopDTOReponse;
 import com.example.websitemanageschooltinhdong.exception.ErrorResponse;
 import com.example.websitemanageschooltinhdong.exception.RecordNotFoundException;
@@ -35,11 +36,11 @@ public class HocSinhController {
     GiaoVienRepository giaoVienRepository;
 
     @GetMapping("/search")
-    public ResponseEntity<List<HocSinh>> search(@RequestParam(value = "id") String id){
-        if(hocSinhRespository.findAllByIdContaining(id).size()==0){
-            throw new RecordNotFoundException("Không tìm thấy học sinh có id này");
+    public ResponseEntity<List<HocSinhSearchDTO>> search(@RequestParam(value = "name") String name){
+        if(hocSinhRespository.findAllByTenContaining(name).size()==0){
+            throw new RecordNotFoundException("Không tìm thấy học sinh tên này");
         }
-        return new ResponseEntity<>(hocSinhRespository.findAllByIdContaining(id),HttpStatus.OK);
+        return new ResponseEntity<>(hocSinhService.findALLSearch(name),HttpStatus.OK);
     }
     //get List student by id teacher
     @GetMapping("/list/{idTeacher}")

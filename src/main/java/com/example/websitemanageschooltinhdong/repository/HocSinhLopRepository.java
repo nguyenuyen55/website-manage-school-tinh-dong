@@ -7,6 +7,7 @@ import java.util.List;
 
 public interface HocSinhLopRepository extends JpaRepository<HocSinhLop,Integer> {
     List<HocSinhLop> findAllByHocSinh_Id(String id);
+    HocSinhLop findByHocSinh_IdAndActiveTrue(String id);
     List<HocSinhLop> findAllByLop_IdAndActiveTrue(int id);
 
 
