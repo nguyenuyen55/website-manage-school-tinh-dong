@@ -119,7 +119,7 @@ public class HocSinhServiceImpl implements HocSinhService {
         hocSinhLopRepository.save(hocSinhLop);
 ////check nam hoc va lay doi tuong nam hoc
 ////tạo list học kì đã có sẵn
-        int yearCurrent = new Date().getYear() + 1900;
+        int yearCurrent = lopRepository.findYearbyLop(lop.get().getId());
         List<HocKi> hocKis = hocKiRepository.findAllByNamHocYear(yearCurrent);
         NamHoc namhocReal = null;
         HocKi hockiNew = null;

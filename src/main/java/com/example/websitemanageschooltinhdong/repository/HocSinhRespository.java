@@ -30,8 +30,9 @@ public interface HocSinhRespository extends JpaRepository<HocSinh, String> {
             "join lop on lop.id = hsl.lopid\n" +
             "where lop.khoi_id= :idKhoi and hs.ten like %:ten% and hsl.lopid= :idlop", nativeQuery = true)
     List<HocSinh> findAllByTenContainingAndLop_IdAndLop_Khoi_Id(@Param("ten") String ten, @Param("idlop") int idLop, @Param("idKhoi") int idKhoi);
-//get hs by id teacher
 
+
+    //get hs by id teacher
     @Query(value = "SELECT hs.* FROM hoc_sinh hs\n" +
             "join hoc_sinh_lop hsl on hs.id = hsl.hoc_sinh_id\n" +
             "where hsl.lopid= :id and hsl.active=true", nativeQuery = true)

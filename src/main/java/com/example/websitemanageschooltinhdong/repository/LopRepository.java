@@ -14,4 +14,6 @@ public interface LopRepository extends JpaRepository<Lop,Integer> {
     List<Lop> findAllByKhoi_IdAndNamHoc_IdForThoiKhoaBieu(int idkhoi,int id);
 
     Lop findByNamHocYearAndTen(int year,String ten);
+    @Query("select l.namHoc.year from Lop l where l.id= ?1")
+    Integer findYearbyLop(int idlop);
 }

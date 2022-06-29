@@ -186,10 +186,7 @@ public class LopServiceImpl implements LopService {
     @Transactional
     public Boolean updateLenLop(String ten, int year, String idgv, int idlop) {
 
-        Lop lopcheck = lopRepository.findByNamHocYearAndTen(year, ten);
-        if (lopcheck != null) {
-            throw new RecordNotFoundException("LỚp này đã tồn tại");
-        }
+
 
 
 //        List<HocSinhReponse> hocSinhFakes = hocSinhRespository.findByLop_idTest(idlop);
@@ -216,6 +213,10 @@ public class LopServiceImpl implements LopService {
                 name = "5" + name;
                 khoi = khoiRepository.findById(5).get();
                 break;
+        }
+        Lop lopcheck = lopRepository.findByNamHocYearAndTen(year+1, name);
+        if (lopcheck != null) {
+            throw new RecordNotFoundException("LỚp này đã tồn tại");
         }
         //tạo list học kì đã có sẵn
         List<HocKi> hocKis = hocKiRepository.findAllByNamHocYear(year + 1);
